@@ -1,4 +1,6 @@
 node_modules/
+.pnpm-store/
+package-lock.json
 dist/
 .astro/
 .DS_Store

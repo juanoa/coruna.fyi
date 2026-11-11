@@ -6,20 +6,22 @@ Una guía editorial de A Coruña. Primera entrega: sistema de diseño vivo en `/
 
 Node.js compatible con Astro 7 (este proyecto se ha validado con Node 24.10.0).
 
+El proyecto usa pnpm 11.6.0, fijado en `package.json` mediante `packageManager`.
+
 ```sh
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 Abrir http://127.0.0.1:4321/ds/. La raíz redirige al sistema de diseño mientras se define la portada.
 
 ```sh
-npm run check
-npm run build
-npm run preview
+pnpm check
+pnpm build
+pnpm preview
 ```
 
-Astro 7.4.10 era la última versión estable publicada en npm al iniciar el proyecto. TypeScript se mantiene en la versión 6 por compatibilidad con `astro check`. Las dependencias resueltas están fijadas en `package-lock.json`.
+El proyecto usa Astro 7.4.10. TypeScript se mantiene en la versión 6 por compatibilidad con `astro check`. Las dependencias resueltas están fijadas en `pnpm-lock.yaml`, el único archivo de bloqueo del proyecto. Para añadir, actualizar o eliminar dependencias, usar pnpm.
 
 ## Dirección de diseño
 
