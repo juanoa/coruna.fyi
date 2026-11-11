@@ -1,0 +1,41 @@
+---
+import HomeLayout from '../layouts/HomeLayout.astro';
+import Icon from '../components/Icon.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import GalicianWord from '../components/GalicianWord.astro';
+import HomeMap from '../components/HomeMap.astro';
+import { getStory } from '../data/home';
+const selection = ['riazor', 'mesa', 'menhires'].map(getStory);
+---
+
+<HomeLayout variant={1}>
+  <section class="editorial-hero" aria-labelledby="home-title">
+    <div>
+      <p class="home-eyebrow">A CORUÑA, CONTADA DESDE AQUÍ</p>
+      <h1 id="home-title">Vienes por el mar.<br />Te quedas por<br /><em>todo lo demás.</em></h1>
+      <p class="home-copy">Una ciudad para caminar, sentarse a la mesa y dejarse llevar. Te contamos los lugares y las historias que nos hacen quererla.</p>
+      <div class="home-actions"><a class="home-button" href="#descubrir">Empieza a descubrir <Icon name="arrow-down-right" /></a><a class="home-text-link" href="#mapa">Prefiero perderme en el mapa <Icon name="arrow-up-right" /></a></div>
+    </div>
+    <figure class="editorial-cover">
+      <img class="home-photo" src="/images/torre.jpg" alt="La Torre de Hércules al amanecer sobre su península verde y los acantilados" width="1280" height="685" fetchpriority="high" />
+      <div class="editorial-stamp"><span lang="gl">O noso norte.</span><small>A TORRE · A CORUÑA</small></div>
+      <figcaption>Hay lugares que siempre orientan. · Foto: Diego Delso</figcaption>
+    </figure>
+  </section>
+  <nav class="category-rail" aria-label="Formas de descubrir A Coruña">
+    <button data-open-story="riazor" aria-haspopup="dialog"><Icon name="waves" size={24} /> Mar y playas</button>
+    <button data-open-story="vella" aria-haspopup="dialog"><Icon name="building" size={24} /> Barrios e historias</button>
+    <button data-open-story="mesa" aria-haspopup="dialog"><Icon name="utensils" size={24} /> A la mesa</button>
+    <button data-open-story="menhires" aria-haspopup="dialog"><Icon name="footprints" size={24} /> Sin prisa, a pie</button>
+  </nav>
+  <section class="home-section" id="descubrir">
+    <div class="home-section-heading"><div><p class="home-eyebrow">UN BUEN PUNTO DE PARTIDA</p><h2>Hay una Coruña para cada día.</h2></div><a class="home-text-link" href="#mapa">Encuentra tu próximo lugar <Icon name="arrow-up-right" /></a></div>
+    <div class="home-cards">{selection.map((story) => <PlaceCard {...story} previewId={story.id} />)}</div>
+  </section>
+  <section class="home-section home-split" id="barrios">
+    <figure><img class="home-photo editorial-neighborhood-photo" src="/images/san-xurxo.jpg" alt="Fachada de piedra de San Xurxo vista desde la calle" width="960" height="1471" loading="lazy" /><figcaption class="home-caption"><span>San Xurxo, una puerta a la ciudad de siempre.</span><span>Diego Delso</span></figcaption></figure>
+    <div><p class="home-eyebrow clay">DE CALLE EN CALLE</p><h2>La ciudad también<br />se lleva <em>por dentro.</em></h2><p class="home-copy">Detrás de cada plaza hay una conversación. Detrás de cada calle, una historia. Nos adentramos en los barrios para conocer la Coruña que no cabe en una postal.</p><button class="home-text-link" data-open-story="vella" aria-haspopup="dialog">Un paseo por la Cidade Vella <Icon name="arrow-up-right" /></button><p class="editorial-note">Un café, una plaza y toda la mañana por delante. Eso también es un plan.</p></div>
+  </section>
+  <section class="home-section home-quote" aria-label="Una palabra de aquí"><p class="home-eyebrow">UN POCO DE GALEGO, UN POCO DE NOSOTROS</p><blockquote>Que el paseo se alargue hasta el<br /><GalicianWord word="luscofusco" meaning="Ese momento entre el día y la noche, cuando la luz empieza a irse. El crepúsculo." />.</blockquote><p>Hay cosas que se entienden mejor con una palabra de aquí.</p></section>
+  <HomeMap />
+</HomeLayout>

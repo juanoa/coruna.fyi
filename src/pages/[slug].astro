@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { guideEntries, type HomeStory } from '../data/home';
+import HomeLayout from '../layouts/HomeLayout.astro';
+import Icon from '../components/Icon.astro';
+import Tag from '../components/Tag.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import { iconography } from '../data/iconography';
+import gallery from '../data/gallery-images.json';
+
+export const getStaticPaths = (() => guideEntries.map((entry) => {
+  const slug = entry.href.slice(1, -1);
+  return { params: { slug }, props: { entry } };
+})) satisfies GetStaticPaths;
+
+interface Props { entry: HomeStory; }
+const { entry } = Astro.props;
+const section = entry.section;
+const returnHref = section === 'barrios' ? '/#barrios' : '/#descubrir';
+const related = guideEntries.filter((item) => item.href !== entry.href && item.section === (section === 'barrios' ? 'barrios' : 'lugares')).slice(0, 3);
+const credit = gallery.find((photo) => photo.src === entry.image);
+---
+
+<HomeLayout variant={2} title={`${entry.title} — coruna.fyi`} description={entry.description}>
+  <article class="destination">
+    <header class="destination-header"><Tag tone={iconography[entry.category].tone}>{entry.categoryLabel}</Tag><h1>{entry.title}</h1><p class="home-copy">{entry.description}</p></header>
+    <figure class="destination-photo"><img class="home-photo" src={entry.image} alt={entry.alt} width="1280" height="720" fetchpriority="high" />{credit && <figcaption class="home-caption"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}</figure>
+    <div class="destination-body"><div class="destination-reading"><h2>{section === 'rutas' ? 'El recorrido' : 'Información general'}</h2><p>{entry.body}</p><h2>{section === 'rutas' ? 'Paradas de la ruta' : 'Recorrido sugerido'}</h2><ol>{entry.stops.map((stop) => <li>{stop}</li>)}</ol></div><aside class="destination-facts" aria-label="Datos de la visita"><h2>La visita</h2><dl><div><dt><Icon name="map-pin" /> Zona</dt><dd>{entry.location}</dd></div><div><dt><Icon name="footprints" /> Duración orientativa</dt><dd>{entry.duration}</dd></div></dl><a class="home-button secondary" href="/#mapa">Ver mapa de A Coruña <Icon name="arrow-up-right" /></a></aside></div>
+  </article>
+  <section class="home-section" aria-labelledby="related-title"><div class="home-section-heading"><h2 id="related-title">{section === 'barrios' ? 'Otros barrios' : 'Otros lugares'}</h2><a class="home-text-link" href={returnHref}>Ver {section === 'barrios' ? 'los barrios' : 'todas las propuestas'} <Icon name="arrow-up-right" /></a></div><div class="home-cards">{related.map((item) => <PlaceCard {...item} />)}</div></section>
+</HomeLayout>

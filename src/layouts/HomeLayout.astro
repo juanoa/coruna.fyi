@@ -1,0 +1,40 @@
+---
+import Layout from './Layout.astro';
+import Icon from '../components/Icon.astro';
+import StoryPreviews from '../components/StoryPreviews.astro';
+import { homeVariants } from '../data/home';
+import '../styles/home.css';
+interface Props { variant: 1 | 2 | 3; title?: string; description?: string; }
+const { variant, title, description = 'Guía de A Coruña: lugares, playas, barrios, gastronomía y rutas a pie.' } = Astro.props;
+const homeHref = variant === 2 ? '/' : `/home-${variant}/`;
+const pageTitle = title ?? (variant === 2 ? 'Guía de A Coruña — coruna.fyi' : `A Coruña, a tu manera — ${homeVariants[variant - 1].name} · coruna.fyi`);
+---
+
+<Layout title={pageTitle} description={description}>
+  <div class:list={['home', `home-${variant}`]}>
+    <a class="home-skip" href="#contenido">Saltar al contenido</a>
+    {variant !== 2 && <div class="concept-bar">
+      <div class="home-shell concept-inner">
+        <span class="concept-label">Exploraciones de portada <span>· contenido de muestra</span></span>
+        <nav aria-label="Alternativas de home">
+          {homeVariants.map((item) => <a href={`/home-${item.number}/`} aria-current={item.number === variant ? 'page' : undefined}><span class="concept-number">0{item.number}</span><span>{item.name}</span></a>)}
+        </nav>
+      </div>
+    </div>}
+    <header class="home-shell home-header" id="inicio">
+      <a href={homeHref} class="home-logo" aria-label="coruna.fyi, inicio">coruna<span>.fyi</span></a>
+    </header>
+    <main id="contenido" class="home-shell"><slot /></main>
+    <footer class="home-shell home-footer">
+      <div class="footer-top">
+        <div><a href="#inicio" class="home-logo">coruna<span>.fyi</span></a><p>Hecho con calma. Pensado para A Coruña.</p></div>
+        <a class="home-text-link" href="#inicio">Volver arriba <Icon name="arrow-up" /></a>
+      </div>
+    </footer>
+    {variant !== 2 && <StoryPreviews />}
+  </div>
+</Layout>
+
+<script>
+  import '../scripts/discovery';
+</script>

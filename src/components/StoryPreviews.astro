@@ -1,0 +1,65 @@
+---
+import { stories } from '../data/home';
+import gallery from '../data/gallery-images.json';
+import Tag from './Tag.astro';
+import { iconography } from '../data/iconography';
+---
+
+{stories.map((story) => {
+  const credit = gallery.find((photo) => photo.src === story.image);
+  return (
+    <dialog id={`story-${story.id}`} class="story-preview" aria-labelledby={`story-title-${story.id}`}>
+      <form method="dialog" class="preview-close"><button autofocus>Cerrar <span aria-hidden="true">×</span></button></form>
+      <img src={story.image} alt={story.alt} width="960" height="640" loading="lazy" />
+      <div class="preview-copy">
+        <Tag tone={iconography[story.category].tone}>{story.categoryLabel}</Tag>
+        <h2 id={`story-title-${story.id}`}>{story.title}</h2>
+        <p class="preview-meta">{story.location} · {story.duration}</p>
+        <p>{story.body}</p>
+        <h3>Una forma de recorrerlo</h3>
+        <ol>{story.stops.map((stop) => <li>{stop}</li>)}</ol>
+        <p class="preview-note">Una propuesta de muestra para imaginar tu visita.</p>
+        {credit && <p class="preview-credit">Fotografía: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a>. Encuadre adaptado.</p>}
+      </div>
+    </dialog>
+  );
+})}
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-open-story]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const dialog = document.getElementById(`story-${trigger.dataset.openStory}`);
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    });
+  });
+  document.querySelectorAll<HTMLDialogElement>('.story-preview').forEach((dialog) => {
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+      const rect = dialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+    });
+  });
+</script>
+
+<style>
+  .story-preview { position: fixed; margin: auto; padding: 0; width: min(680px, calc(100% - 32px)); max-height: calc(100dvh - 48px); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink); }
+  .story-preview::backdrop { background: var(--color-video-shade); }
+  .story-preview > img { width: 100%; height: 260px; object-fit: cover; }
+  .preview-close { display: flex; justify-content: flex-end; padding: 8px 16px; background: var(--color-paper); position: sticky; top: 0; z-index: 1; }
+  .preview-close button { display: flex; gap: 16px; align-items: center; min-height: var(--spacing-control); padding: 0 12px; font-size: var(--text-sm); color: var(--color-sea); cursor: pointer; }
+  .preview-close span { font-size: var(--text-2xl); }
+  .preview-copy { padding: 32px; }
+  h2 { margin: 20px 0 16px; font: 450 var(--text-h2)/1.08 var(--font-display); letter-spacing: var(--tracking-heading); }
+  h3 { font: 450 var(--text-2xl)/1.2 var(--font-display); margin: 28px 0 16px; }
+  p, ol { font-size: var(--text-md); line-height: var(--leading-copy); }
+  ol { list-style: decimal; padding-left: 20px; }
+  li { margin: 8px 0; padding-left: 8px; }
+  .preview-meta, .preview-note, .preview-credit { color: var(--color-muted); }
+  .preview-meta { font-size: var(--text-label); margin-bottom: 24px; }
+  .preview-note { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--color-line); font-size: var(--text-label); }
+  .preview-credit { font-size: var(--text-meta); margin-top: 16px; }
+  a { color: var(--color-sea); text-decoration: underline; text-underline-offset: 3px; }
+  :is(a, button):focus-visible { outline: 3px solid var(--color-sea); outline-offset: 4px; }
+  @media (max-width: 540px) { .preview-copy { padding: 24px; } .story-preview > img { height: 200px; } }
+  :global(html:has(.story-preview[open])) { overflow: hidden; }
+</style>

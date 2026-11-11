@@ -10,12 +10,14 @@ interface Props {
   title: string;
   description: string;
   featured?: boolean;
+  previewId?: string;
+  href?: string;
 }
-const { image, alt, category, categoryLabel, title, description, featured: _featured = false } = Astro.props;
+const { image, alt, category, categoryLabel, title, description, featured: _featured = false, previewId, href } = Astro.props;
 const categoryStyle = iconography[category];
 ---
 
-<article class="group/card flex flex-col overflow-hidden rounded-card border border-line bg-surface group-data-[layout=list]/cards:grid group-data-[layout=list]/cards:grid-cols-[220px_1fr] max-sm:group-data-[layout=list]/cards:grid-cols-[100px_1fr] sm:max-lg:group-data-[layout=grid]/cards:last:col-span-full sm:max-lg:group-data-[layout=grid]/cards:last:grid sm:max-lg:group-data-[layout=grid]/cards:last:grid-cols-2 sm:max-lg:group-data-[layout=grid]/cards:last:[&_img]:h-full">
+<article class:list={["group/card relative flex flex-col overflow-hidden rounded-card border border-line bg-surface group-data-[layout=list]/cards:grid group-data-[layout=list]/cards:grid-cols-[220px_1fr] max-sm:group-data-[layout=list]/cards:grid-cols-[100px_1fr] sm:max-lg:group-data-[layout=grid]/cards:last:col-span-full sm:max-lg:group-data-[layout=grid]/cards:last:grid sm:max-lg:group-data-[layout=grid]/cards:last:grid-cols-2 sm:max-lg:group-data-[layout=grid]/cards:last:[&_img]:h-full", (href || previewId) && 'hover:border-sea focus-within:outline-3 focus-within:outline-sea focus-within:outline-offset-4']}>
   <div class="relative">
     <img
       class="block aspect-[3/2] h-auto w-full object-cover group-data-[layout=list]/cards:aspect-[4/3] group-data-[layout=list]/cards:h-full"
@@ -34,7 +36,7 @@ const categoryStyle = iconography[category];
   </div>
   <div class="flex flex-1 flex-col pt-5.25 pr-4.5 pb-5.5 pl-4.5 max-xl:px-3.5 max-sm:p-5.5 max-sm:group-data-[layout=list]/cards:p-4">
     <h3 class="mb-2.75 font-display text-[25px] font-[450] leading-[1.15] tracking-heading 2xl:text-[29px] max-xl:text-[23px] max-md:text-2xl max-sm:text-[31px] max-sm:group-data-[layout=list]/cards:text-2xl">
-      {title}
+      {href ? <a class="text-inherit no-underline after:absolute after:inset-0 focus-visible:outline-none" href={href}>{title}</a> : previewId ? <button class="cursor-pointer text-left after:absolute after:inset-0 focus-visible:outline-none" data-open-story={previewId} aria-haspopup="dialog">{title}</button> : title}
     </h3>
     <p class="text-sm leading-copy text-muted max-sm:group-data-[layout=list]/cards:text-xs">{description}</p>
   </div>

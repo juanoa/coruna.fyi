@@ -1,0 +1,45 @@
+---
+import HomeLayout from '../layouts/HomeLayout.astro';
+import Icon from '../components/Icon.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import HomeMap from '../components/HomeMap.astro';
+import { stories, neighborhoods, towerRoute } from '../data/home';
+const filters = [
+  { id: 'all', label: 'Todo', icon: 'compass' },
+  { id: 'sea', label: 'Mar y playas', icon: 'waves' },
+  { id: 'dining', label: 'Gastronomía', icon: 'utensils' },
+  { id: 'walks', label: 'Paseos', icon: 'footprints' },
+  { id: 'history', label: 'Monumentos y barrios', icon: 'book-open' },
+] as const;
+const filterCategory = (id: string) => id === 'torre' || id === 'vella' ? 'history' : id === 'marina' || id === 'riazor' ? 'sea' : id === 'mesa' ? 'dining' : 'walks';
+---
+
+<HomeLayout variant={2}>
+  <section class="guide-intro" aria-labelledby="home-title"><p class="home-eyebrow">GUÍA DE A CORUÑA</p><h1 id="home-title">¿Qué te apetece <em>hoy?</em></h1><p class="home-copy">Lugares que visitar, playas, gastronomía y rutas a pie.<br class="max-sm:hidden" /> Encuentra qué hacer en A Coruña.</p></section>
+  <section class="guide-finder" id="descubrir" aria-label="Encuentra un plan">
+    <div class="guide-filters" role="group" aria-label="Qué te apetece hacer">{filters.map((filter, i) => <button class="guide-filter" data-home-filter={filter.id} aria-pressed={i === 0} aria-controls="guide-results"><Icon name={filter.icon} size={20} />{filter.label}</button>)}</div>
+    <div class="guide-results-heading"><h2>Qué ver y hacer</h2><p data-results-count role="status">{stories.length} propuestas</p></div>
+    <div class="home-cards guide-cards" id="guide-results">{stories.map((story) => <div data-home-result={filterCategory(story.id)}><PlaceCard {...story} /></div>)}</div>
+    <noscript><p class="home-copy">Se muestran todas las propuestas. Puedes abrir sus páginas sin JavaScript; actívalo para usar los filtros.</p></noscript>
+  </section>
+  <section class="home-section guide-itinerary" aria-labelledby="itinerary-title">
+    <img src="/images/menhires.jpg" alt="Los Menhires pola Paz entre la hierba y el horizonte del Atlántico" width="960" height="494" loading="lazy" />
+    <div class="guide-itinerary-copy"><p class="home-eyebrow moss">RUTA A PIE · 2 HORAS APROXIMADAMENTE</p><h2 id="itinerary-title">{towerRoute.title}</h2><p>{towerRoute.description}</p><ol class="guide-stops"><li><span>01</span>Playa de As Lapas</li><li><span>02</span>Torre de Hércules</li><li><span>03</span>Menhires pola Paz</li></ol><a class="home-button secondary" href={towerRoute.href}>Ver ruta <Icon name="arrow-up-right" /></a></div>
+  </section>
+  <section class="home-section" id="barrios"><div class="home-section-heading"><div><p class="home-eyebrow">EXPLORAR LA CIUDAD</p><h2>Barrios de A Coruña</h2></div><p class="home-section-note">Ubicación y recorridos a pie.</p></div><div class="guide-neighborhoods">
+    {neighborhoods.map((neighborhood) => <article><img src={neighborhood.image} alt={neighborhood.alt} width="960" height="640" loading="lazy" /><h3><a href={neighborhood.href}>{neighborhood.title} <Icon name="arrow-up-right" size={20} /></a></h3><p>{neighborhood.description}</p></article>)}
+  </div></section>
+  <HomeMap />
+</HomeLayout>
+
+<script>
+  const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-home-filter]')];
+  const results = [...document.querySelectorAll<HTMLElement>('[data-home-result]')];
+  filters.forEach((button) => button.addEventListener('click', () => {
+    filters.forEach((filter) => filter.setAttribute('aria-pressed', String(filter === button)));
+    results.forEach((result) => { result.hidden = button.dataset.homeFilter !== 'all' && result.dataset.homeResult !== button.dataset.homeFilter; });
+    const count = results.filter((result) => !result.hidden).length;
+    const status = document.querySelector('[data-results-count]');
+    if (status) status.textContent = `${count} ${count === 1 ? 'propuesta' : 'propuestas'}`;
+  }));
+</script>
