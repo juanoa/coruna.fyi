@@ -1,7 +1,10 @@
 ---
 import CityMap from './CityMap.astro';
 ---
-<section id="mapa" class="home-section home-map">
-  <div class="home-section-heading"><div><p class="home-eyebrow">UBICACIÓN DE LOS LUGARES</p><h2>Mapa de A Coruña</h2></div><p class="home-section-note">Selecciona un lugar para ver su descripción.</p></div>
+<section id="mapa" class="mt-22 scroll-mt-8 max-md:mt-16">
+  <div class="mb-7 flex items-end justify-between gap-8 max-md:items-start max-md:gap-6 max-sm:mb-6 max-sm:flex-col max-sm:gap-3">
+    <div><p class="mb-3 text-meta font-[550] leading-[1.6] tracking-eyebrow text-sea">UBICACIÓN DE LOS LUGARES</p><h2 class="font-display text-h2 font-[450] leading-heading tracking-heading max-sm:text-[34px]">Mapa de A Coruña</h2></div>
+    <p class="text-right text-label leading-copy text-muted max-md:hidden">Selecciona un lugar para ver su descripción.</p>
+  </div>
   <CityMap />
 </section>

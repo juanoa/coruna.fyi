@@ -19,13 +19,40 @@ const section = entry.section;
 const returnHref = section === 'barrios' ? '/#barrios' : '/#descubrir';
 const related = guideEntries.filter((item) => item.href !== entry.href && item.section === (section === 'barrios' ? 'barrios' : 'lugares')).slice(0, 3);
 const credit = gallery.find((photo) => photo.src === entry.image);
+const heading = 'font-display font-[450] leading-heading tracking-heading';
+const focus = 'focus-visible:outline-3 focus-visible:outline-sea focus-visible:outline-offset-5';
 ---
 
-<HomeLayout title={`${entry.title} — coruna.fyi`} description={entry.description}>
-  <article class="destination">
-    <header class="destination-header"><Tag tone={iconography[entry.category].tone}>{entry.categoryLabel}</Tag><h1>{entry.title}</h1><p class="home-copy">{entry.description}</p></header>
-    <figure class="destination-photo"><img class="home-photo" src={entry.image} alt={entry.alt} width="1280" height="720" fetchpriority="high" />{credit && <figcaption class="home-caption"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}</figure>
-    <div class="destination-body"><div class="destination-reading"><h2>{section === 'rutas' ? 'El recorrido' : 'Información general'}</h2><p>{entry.body}</p><h2>{section === 'rutas' ? 'Paradas de la ruta' : 'Recorrido sugerido'}</h2><ol>{entry.stops.map((stop) => <li>{stop}</li>)}</ol></div><aside class="destination-facts" aria-label="Datos de la visita"><h2>La visita</h2><dl><div><dt><Icon name="map-pin" /> Zona</dt><dd>{entry.location}</dd></div><div><dt><Icon name="footprints" /> Duración orientativa</dt><dd>{entry.duration}</dd></div></dl><a class="home-button secondary" href="/#mapa">Ver mapa de A Coruña <Icon name="arrow-up-right" /></a></aside></div>
+<HomeLayout title={`${entry.title} — coruña.fyi`} description={entry.description}>
+  <article class="pt-6">
+    <header class="my-8">
+      <Tag tone={iconography[entry.category].tone}>{entry.categoryLabel}</Tag>
+      <h1 class:list={[heading, 'mt-5 text-h1 max-sm:text-[42px] max-sm:[overflow-wrap:anywhere]']}>{entry.title}</h1>
+      <p class="mt-6 max-w-reading text-reading leading-copy text-muted max-md:text-md">{entry.description}</p>
+    </header>
+    <figure>
+      <img class="block aspect-video h-auto max-h-120 w-full rounded-photo object-cover max-sm:aspect-[4/3]" src={entry.image} alt={entry.alt} width="1280" height="720" fetchpriority="high" />
+      {credit && <figcaption class="mt-3 flex justify-between gap-4 text-meta leading-[1.7] text-muted max-md:flex-col max-md:gap-2 [&_a]:underline [&_a]:underline-offset-3 [&_a:hover]:text-sea [&_a:focus-visible]:outline-3 [&_a:focus-visible]:outline-sea [&_a:focus-visible]:outline-offset-5"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}
+    </figure>
+    <div class="mt-12 grid grid-cols-[minmax(0,1fr)_300px] items-start gap-16 max-md:grid-cols-1 max-md:gap-8 max-sm:mt-8">
+      <div class="max-w-reading [&_h2]:mb-5 [&_h2]:font-display [&_h2]:text-h3 [&_h2]:font-[450] [&_h2]:leading-heading [&_h2]:tracking-heading [&_h2:not(:first-child)]:mt-9 [&_p]:text-reading [&_p]:leading-copy [&_p]:text-muted [&_li]:mb-3 [&_li]:pl-2 [&_li]:text-reading [&_li]:leading-copy [&_li]:text-muted max-sm:[&_h2]:text-[34px]">
+        <h2>{section === 'rutas' ? 'El recorrido' : 'Información general'}</h2>
+        <p>{entry.body}</p>
+        <h2>{section === 'rutas' ? 'Paradas de la ruta' : 'Recorrido sugerido'}</h2>
+        <ol class="list-decimal pl-6">{entry.stops.map((stop) => <li>{stop}</li>)}</ol>
+      </div>
+      <aside class="rounded-card border border-line bg-surface p-6" aria-label="Datos de la visita">
+        <h2 class:list={[heading, 'text-2xl max-sm:text-[34px]']}>La visita</h2>
+        <dl class="[&>div]:mt-6 [&_dt]:flex [&_dt]:items-center [&_dt]:gap-2 [&_dt]:text-xs [&_dt]:text-muted [&_dd]:mt-2 [&_dd]:text-sm"><div><dt><Icon name="map-pin" /> Zona</dt><dd>{entry.location}</dd></div><div><dt><Icon name="footprints" /> Duración orientativa</dt><dd>{entry.duration}</dd></div></dl>
+        <a class:list={['mt-7 inline-flex min-h-control w-full items-center justify-center gap-3 rounded-sm border border-ink bg-transparent px-5 py-3 text-sm font-medium leading-[1.4] text-ink hover:bg-sea-light hover:text-sea', focus]} href="/#mapa">Ver mapa de A Coruña <Icon name="arrow-up-right" /></a>
+      </aside>
+    </div>
   </article>
-  <section class="home-section" aria-labelledby="related-title"><div class="home-section-heading"><h2 id="related-title">{section === 'barrios' ? 'Otros barrios' : 'Otros lugares'}</h2><a class="home-text-link" href={returnHref}>Ver {section === 'barrios' ? 'los barrios' : 'todas las propuestas'} <Icon name="arrow-up-right" /></a></div><div class="home-cards">{related.map((item) => <PlaceCard {...item} />)}</div></section>
+  <section class="mt-22 scroll-mt-8 max-md:mt-16" aria-labelledby="related-title">
+    <div class="mb-7 flex items-end justify-between gap-8 max-md:items-start max-md:gap-6 max-sm:mb-6 max-sm:flex-col max-sm:gap-3">
+      <h2 class:list={[heading, 'text-h2 max-sm:text-[34px]']} id="related-title">{section === 'barrios' ? 'Otros barrios' : 'Otros lugares'}</h2>
+      <a class:list={['inline-flex min-h-control items-center gap-3 text-label font-medium text-sea hover:underline hover:underline-offset-5 max-sm:min-h-9', focus]} href={returnHref}>Ver {section === 'barrios' ? 'los barrios' : 'todas las propuestas'} <Icon name="arrow-up-right" /></a>
+    </div>
+    <div class="grid grid-cols-3 gap-6 max-md:grid-cols-2 max-md:gap-5 max-sm:grid-cols-1 max-sm:gap-6 [&_article]:h-full [&_h3]:text-h3 [&_h3]:leading-heading max-md:[&>article:last-child:nth-child(odd)]:col-span-full">{related.map((item) => <PlaceCard {...item} />)}</div>
+  </section>
 </HomeLayout>
