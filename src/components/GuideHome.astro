@@ -14,7 +14,7 @@ const filters = [
 const filterCategory = (id: string) => id === 'torre' || id === 'vella' ? 'history' : id === 'marina' || id === 'riazor' ? 'sea' : id === 'mesa' ? 'dining' : 'walks';
 ---
 
-<HomeLayout variant={2}>
+<HomeLayout>
   <section class="guide-intro" aria-labelledby="home-title"><p class="home-eyebrow">GUÍA DE A CORUÑA</p><h1 id="home-title">¿Qué te apetece <em>hoy?</em></h1><p class="home-copy">Lugares que visitar, playas, gastronomía y rutas a pie.<br class="max-sm:hidden" /> Encuentra qué hacer en A Coruña.</p></section>
   <section class="guide-finder" id="descubrir" aria-label="Encuentra un plan">
     <div class="guide-filters" role="group" aria-label="Qué te apetece hacer">{filters.map((filter, i) => <button class="guide-filter" data-home-filter={filter.id} aria-pressed={i === 0} aria-controls="guide-results"><Icon name={filter.icon} size={20} />{filter.label}</button>)}</div>

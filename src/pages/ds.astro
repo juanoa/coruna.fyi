@@ -10,8 +10,7 @@ import IconGallery from '../components/IconGallery.astro';
 import ImageGallery from '../components/ImageGallery.astro';
 import ThemeControls from '../components/ThemeControls.astro';
 import CopyFeedback from '../components/CopyFeedback';
-import StoryPreviews from '../components/StoryPreviews.astro';
-import { homeVariants, getStory } from '../data/home';
+import { getStory } from '../data/home';
 const sections = [
   ['fundamentos', 'Introducción'],
   ['color', 'Color'],
@@ -21,7 +20,7 @@ const sections = [
   ['imagen', 'Imagen y vídeo'],
   ['mapas', 'Cartografía'],
   ['galego', 'Un poco de galego'],
-  ['portadas', 'Portadas'],
+  ['portadas', 'Portada'],
   ['estructura', 'Espacio y estructura'],
 ];
 const colors = [
@@ -807,20 +806,17 @@ const supportColors = [
       </section>
 
       <section id="portadas" class="pt-16 mt-16 max-md:pt-10.75 max-md:mt-10.75" data-observed-section>
-        <p class="text-meta font-medium tracking-eyebrow text-sea mb-3.5">09 &nbsp; COMPOSICIÓN DE PORTADAS</p>
-        <h2 class="font-display font-[450] leading-heading tracking-heading text-h2">Una identidad. Tres formas de entrar.</h2>
-        <p class="max-w-reading text-md text-muted leading-copy mt-4 mb-7">La segunda propuesta es la home elegida y se muestra en <a class="text-sea underline underline-offset-4" href="/">la página de inicio</a>, también disponible en /home-2. Los lugares usan sus nombres propios: Torre de Hércules, Riazor y Orzán, Cidade Vella. Las otras composiciones se conservan como exploraciones anteriores.</p>
-        <div class="grid grid-cols-3 gap-4 max-lg:grid-cols-1">
-          {homeVariants.map((item) => <a href={`/home-${item.number}/`} class="block border border-line rounded-card p-6 hover:bg-sea-light focus-visible:outline-3 focus-visible:outline-sea focus-visible:outline-offset-5"><span class="text-meta text-sea">0{item.number} · /home-{item.number}</span><h3 class="font-display font-[450] text-2xl leading-heading tracking-heading mt-4 mb-3">{item.name}</h3><p class="text-label text-muted leading-copy">{item.description}</p><span class="inline-flex items-center gap-2 text-label text-sea mt-5">Explorar propuesta <Icon name="arrow-up-right" /></span></a>)}
-        </div>
+        <p class="text-meta font-medium tracking-eyebrow text-sea mb-3.5">09 &nbsp; COMPOSICIÓN DE PORTADA</p>
+        <h2 class="font-display font-[450] leading-heading tracking-heading text-h2">Una guía para descubrir A Coruña.</h2>
+        <p class="max-w-reading text-md text-muted leading-copy mt-4 mb-7">La home se muestra en <a class="text-sea underline underline-offset-4" href="/">la página de inicio</a>. Organiza los contenidos por intereses, con filtros, lugares, una ruta a pie, barrios y mapa. Los lugares usan sus nombres propios: Torre de Hércules, Riazor y Orzán, Cidade Vella.</p>
         <div class="grid grid-cols-2 gap-6 mt-8 max-sm:grid-cols-1">
           <div><h3 class="font-display text-2xl font-[450] leading-heading tracking-heading mb-4">La estructura compartida</h3><p class="text-sm text-muted leading-copy">Contenedor de 1232 px, con 48 px de margen interior en escritorio, 32 y 24 px en tablet y 20 px en móvil. Por ahora, la cabecera muestra únicamente el logo enlazado al inicio, sin navegación principal ni texto auxiliar. Los cambios de tema respetan el sistema operativo.</p><p class="text-sm text-muted leading-copy mt-4">Secciones separadas por 64–88 px, rejillas de tres, dos y una columna y texto de lectura de hasta 65 caracteres. Solo las fotografías protagonistas admiten esquinas especiales. Las imágenes conservan texto alternativo y créditos.</p></div>
-          <div><h3 class="font-display text-2xl font-[450] leading-heading tracking-heading mb-4">Elegir, explorar, volver</h3><p class="text-sm text-muted leading-copy">Los filtros usan píldoras con estado <code>aria-pressed</code>, selección Atlántico y un área mínima de 44 px. Filtran las propuestas en la misma página y actualizan el número de resultados.</p><p class="text-sm text-muted leading-copy mt-4">Las tarjetas de lugares y barrios y el enlace de ruta navegan a páginas propias mediante enlaces nativos. Todas las fichas tienen su URL en la raíz, como /torre-de-hercules/ o /cidade-vella/, sin prefijos de categoría. PlaceCard recibe <code>href</code>: toda la superficie es pulsable, admite teclado, abrir en otra pestaña y navegación sin JavaScript. El foco se dibuja alrededor de la tarjeta. Las vistas rápidas se reservan a las exploraciones anteriores.</p></div>
+          <div><h3 class="font-display text-2xl font-[450] leading-heading tracking-heading mb-4">Elegir, explorar, volver</h3><p class="text-sm text-muted leading-copy">Los filtros usan píldoras con estado <code>aria-pressed</code>, selección Atlántico y un área mínima de 44 px. Filtran las propuestas en la misma página y actualizan el número de resultados.</p><p class="text-sm text-muted leading-copy mt-4">Las tarjetas de lugares y barrios y el enlace de ruta navegan a páginas propias mediante enlaces nativos. Todas las fichas tienen su URL en la raíz, como /torre-de-hercules/ o /cidade-vella/, sin prefijos de categoría. PlaceCard recibe <code>href</code>: toda la superficie es pulsable, admite teclado, abrir en otra pestaña y navegación sin JavaScript. El foco se dibuja alrededor de la tarjeta.</p></div>
         </div>
         <p class="text-sm text-muted leading-copy mt-6">La cabecera se separa del contenido mediante espacio, sin línea divisoria, tanto en la home como en las fichas. Los filtros y el encabezado «Qué ver y hacer» también se separan únicamente mediante espacio. El pie compartido se limita a la marca, «Hecho con calma. Pensado para A Coruña.» y el enlace Volver arriba. Se separa del contenido mediante espacio, sin líneas divisorias, frase central ni bloque inferior de información auxiliar.</p>
         <div class="grid grid-cols-[1fr_1.4fr] gap-7 mt-8 items-center max-sm:grid-cols-1">
           <PlaceCard {...getStory('riazor')} />
-          <div><p class="text-meta text-sea tracking-eyebrow mb-4">TARJETA CON ENLACE · EJEMPLO INTERACTIVO</p><p class="text-sm text-muted leading-copy">Pulsa el título o la imagen para abrir la ficha de Riazor y Orzán. Se reutilizan PlaceCard, Tag e Icon, con las mismas jerarquías del resto del sistema. El texto mantiene el color Tinta; Atlántico indica acciones, Barro acompaña lengua e historia y Monte se reserva para naturaleza y rutas.</p><p class="text-sm text-muted leading-copy mt-4">Las fichas comparten cabecera y pie con la home. Comienzan directamente con la categoría y el nombre del lugar como H1, sin breadcrumb. Incluyen imagen con créditos, lectura de hasta 65 caracteres, recorrido y datos de visita en una superficie plana. Tras el recorrido y los datos de visita se pasa directamente a las tarjetas relacionadas. En móvil, la información práctica pasa debajo del texto. La barra de alternativas no aparece en la home elegida ni en sus fichas.</p></div>
+          <div><p class="text-meta text-sea tracking-eyebrow mb-4">TARJETA CON ENLACE · EJEMPLO INTERACTIVO</p><p class="text-sm text-muted leading-copy">Pulsa el título o la imagen para abrir la ficha de Riazor y Orzán. Se reutilizan PlaceCard, Tag e Icon, con las mismas jerarquías del resto del sistema. El texto mantiene el color Tinta; Atlántico indica acciones, Barro acompaña lengua e historia y Monte se reserva para naturaleza y rutas.</p><p class="text-sm text-muted leading-copy mt-4">Las fichas comparten cabecera y pie con la home. Comienzan directamente con la categoría y el nombre del lugar como H1, sin breadcrumb. Incluyen imagen con créditos, lectura de hasta 65 caracteres, recorrido y datos de visita en una superficie plana. Tras el recorrido y los datos de visita se pasa directamente a las tarjetas relacionadas. En móvil, la información práctica pasa debajo del texto.</p></div>
         </div>
       </section>
 
@@ -930,7 +926,6 @@ const supportColors = [
     role="status"
     aria-live="polite"
   ></div>
-  <StoryPreviews />
 </Layout>
 
 <script>

@@ -16,7 +16,7 @@ export interface HomeStory {
   stops: string[];
 }
 
-// Contenido de muestra para la guía y las exploraciones de portada.
+// Contenido de muestra para la guía.
 export const stories: HomeStory[] = [
   {
     id: 'torre', href: '/torre-de-hercules/', section: 'lugares', image: '/images/torre.jpg', alt: 'La Torre de Hércules sobre los acantilados y el Atlántico',
@@ -109,9 +109,3 @@ export function getStory(id: string): HomeStory {
   if (!story) throw new Error(`Historia de muestra desconocida: ${id}`);
   return story;
 }
-
-export const homeVariants = [
-  { number: 1, name: 'La editorial', description: 'Una bienvenida con carácter. El lugar y las historias abren la puerta.' },
-  { number: 2, name: 'Tu próximo plan', description: 'Una guía práctica. Primero eliges qué te apetece; después, dónde ir.' },
-  { number: 3, name: 'El cuaderno', description: 'Una mirada de barrio. Fotografía, pequeñas historias y tiempo para leer.' },
-];

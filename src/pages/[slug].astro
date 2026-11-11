@@ -21,7 +21,7 @@ const related = guideEntries.filter((item) => item.href !== entry.href && item.s
 const credit = gallery.find((photo) => photo.src === entry.image);
 ---
 
-<HomeLayout variant={2} title={`${entry.title} — coruna.fyi`} description={entry.description}>
+<HomeLayout title={`${entry.title} — coruna.fyi`} description={entry.description}>
   <article class="destination">
     <header class="destination-header"><Tag tone={iconography[entry.category].tone}>{entry.categoryLabel}</Tag><h1>{entry.title}</h1><p class="home-copy">{entry.description}</p></header>
     <figure class="destination-photo"><img class="home-photo" src={entry.image} alt={entry.alt} width="1280" height="720" fetchpriority="high" />{credit && <figcaption class="home-caption"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}</figure>
