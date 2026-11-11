@@ -1,6 +1,7 @@
 import { createCn } from 'cn/config';
 
 // Keep project font-size tokens distinct from text-color utilities when merging.
+// FIXME: Fix this chamba
 export const cn = createCn({
   extend: {
     classGroups: {

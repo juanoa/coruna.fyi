@@ -17,6 +17,7 @@ export interface HomeStory {
 }
 
 // Contenido de muestra para la guía.
+// FIXME: Create MDX pages
 export const stories: HomeStory[] = [
   {
     id: 'torre', href: '/torre-de-hercules/', section: 'lugares', image: '/images/torre.jpg', alt: 'La Torre de Hércules sobre los acantilados y el Atlántico',
