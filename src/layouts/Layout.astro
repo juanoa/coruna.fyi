@@ -1,0 +1,37 @@
+---
+import '@fontsource-variable/montserrat';
+import '@fontsource-variable/bitter';
+import '@fontsource-variable/bitter/wght-italic.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import darkStyles from '../styles/dark.css?url';
+interface Props { title: string; description: string; themePreview?: boolean }
+const { title, description, themePreview = false } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fcfcfa" data-scheme="light" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121b20" data-scheme="dark" media="(prefers-color-scheme: dark)" />
+    <link id="dark-theme-styles" rel="stylesheet" href={darkStyles} media="(prefers-color-scheme: dark)" />
+    {themePreview && <script is:inline>
+      try {
+        const choice = sessionStorage.getItem('coruna-ds-theme');
+        if (choice === 'light' || choice === 'dark') {
+          document.documentElement.dataset.theme = choice;
+          document.getElementById('dark-theme-styles').media = choice === 'dark' ? 'all' : 'not all';
+          document.querySelectorAll('meta[data-scheme]').forEach(meta => {
+            meta.media = meta.dataset.scheme === choice ? 'all' : 'not all';
+          });
+        }
+      } catch {}
+    </script>}
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

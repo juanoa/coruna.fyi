@@ -1,0 +1,101 @@
+[
+  {
+    "src": "/images/torre.jpg",
+    "alt": "La Torre de Hércules sobre los acantilados y el mar",
+    "caption": "Torre de Hércules",
+    "author": "Diego Delso",
+    "source": "https://commons.wikimedia.org/wiki/File:Torre_de_H%C3%A9rcules,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_35-37_HDR.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "width": 1280,
+    "height": 685
+  },
+  {
+    "src": "/images/san-xurxo.jpg",
+    "alt": "Fachada barroca de la iglesia de San Xurxo",
+    "caption": "San Xurxo",
+    "width": 960,
+    "height": 1471,
+    "author": "Diego Delso",
+    "source": "https://commons.wikimedia.org/wiki/File:Iglesia_de_San_Jorge,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_42.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/riazor.jpg",
+    "alt": "La playa de Riazor junto al paseo y los edificios de la ciudad",
+    "caption": "Riazor",
+    "width": 960,
+    "height": 720,
+    "author": "Roberto Abizanda from Zaragoza, Aragón",
+    "source": "https://commons.wikimedia.org/wiki/File:Praia_de_Riazor.A_Coru%C3%B1a_Galicia.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "src": "/images/polbo.jpg",
+    "alt": "Pulpo a la gallega con pimentón y patatas",
+    "caption": "Pulpo á feira",
+    "author": "Tamorlan",
+    "source": "https://commons.wikimedia.org/wiki/File:PulpoGallega.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "width": 1280,
+    "height": 960
+  },
+  {
+    "src": "/images/maria-pita.jpg",
+    "alt": "Soportales de piedra de la plaza de María Pita",
+    "caption": "María Pita",
+    "width": 960,
+    "height": 655,
+    "author": "Diego Delso",
+    "source": "https://commons.wikimedia.org/wiki/File:Plaza_de_Mar%C3%ADa_Pita,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_91.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/san-carlos.jpg",
+    "alt": "Pieza de piedra tallada entre la vegetación del jardín de San Carlos",
+    "caption": "Xardín de San Carlos",
+    "width": 960,
+    "height": 1391,
+    "author": "Diego Delso",
+    "source": "https://commons.wikimedia.org/wiki/File:Jard%C3%ADn_de_San_Carlos,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_77.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/marina.jpg",
+    "alt": "Las galerías de A Mariña iluminadas al anochecer",
+    "caption": "A Mariña",
+    "author": "Jorge Castro Ruso",
+    "source": "https://commons.wikimedia.org/wiki/File:Marina_-_A_Coru%C3%B1a.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "width": 1280,
+    "height": 721
+  },
+  {
+    "src": "/images/menhires.jpg",
+    "alt": "Los menhires de piedra del parque de la Torre junto al mar",
+    "caption": "Menhires pola Paz",
+    "width": 960,
+    "height": 494,
+    "author": "Diego Delso",
+    "source": "https://commons.wikimedia.org/wiki/File:Los_Menhires,_Parque_de_La_Torre,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_01.JPG",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "src": "/images/ascensor-san-pedro.jpg",
+    "alt": "Ascensor panorámico esférico del monte de San Pedro junto a la ladera",
+    "caption": "Monte de San Pedro",
+    "width": 960,
+    "height": 1280,
+    "author": "Fernando Losada Rodríguez",
+    "source": "https://commons.wikimedia.org/wiki/File:Ascensor_del_Monte_San_Pedro.005_-_A_Coru%C3%B1a.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  }
+]

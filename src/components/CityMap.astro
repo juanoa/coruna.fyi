@@ -1,0 +1,82 @@
+---
+import Icon from './Icon.astro';
+import geography from '../data/coruna-map.json';
+
+type Feature = {
+  properties: { kind: string; road_type?: string };
+  geometry: { type: string; coordinates: number[][] | number[][][] };
+};
+const { width, height, reference_latitude } = geography.projection;
+const [west, , east, north] = geography.bbox;
+const latitudeScale = width / ((east - west) * Math.cos(reference_latitude * Math.PI / 180));
+const project = ([lon, lat]: number[]) => [
+  (lon - west) / (east - west) * width,
+  (north - lat) * latitudeScale,
+];
+const features = geography.features as Feature[];
+function path(feature: Feature) {
+  const polygon = feature.geometry.type === 'Polygon';
+  const lines = polygon ? feature.geometry.coordinates as number[][][] : [feature.geometry.coordinates as number[][]];
+  return lines.map(line => line.map((point, index) => `${index ? 'L' : 'M'}${project(point).map(n => n.toFixed(1)).join(',')}`).join('') + (polygon ? 'Z' : '')).join('');
+}
+const paths = (kind: string) => features.filter(feature => feature.properties.kind === kind).map(path).join('');
+const land = paths('land') + paths('island');
+const majorTypes = ['primary', 'secondary', 'tertiary'];
+const streets = features.filter(feature => feature.properties.kind === 'road');
+const majorRoads = streets.filter(feature => majorTypes.includes(feature.properties.road_type ?? '')).map(path).join('');
+const localRoads = streets.filter(feature => !majorTypes.includes(feature.properties.road_type ?? '')).map(path).join('');
+const places = [
+  { id: 'torre', number: '01', name: 'Torre de Hércules', category: 'patrimonio', label: 'Patrimonio', description: 'Un faro, un horizonte y un paseo para mirar al Atlántico.', position: [-8.40652, 43.38594] },
+  { id: 'orzán', number: '02', name: 'Orzán y Riazor', category: 'paseos', label: 'Paseos', description: 'La ciudad se abre al mar. Un recorrido junto a las playas del Orzán y Riazor.', position: [-8.405113, 43.371916] },
+  { id: 'vella', number: '03', name: 'Cidade Vella', category: 'patrimonio', label: 'Patrimonio', description: 'Plazas pequeñas, calles de piedra e historias para descubrir a pie.', position: [-8.3926, 43.3714] },
+  { id: 'marina', number: '04', name: 'A Mariña', category: 'paseos', label: 'Paseos', description: 'Galerías blancas frente al puerto. Un buen lugar para empezar a conocer la ciudad.', position: [-8.4003, 43.3688] },
+].map(place => { const [x, y] = project(place.position); return { ...place, x, y }; });
+---
+<div class="map-demo">
+  <div class="map-canvas">
+    <div class="map-topline"><span class="eyebrow">A CORUÑA, A VISTA DE PÁXARO</span><span class="map-north" aria-label="Norte">N <Icon name="arrow-up" /></span></div>
+    <svg class="city-map" viewBox={`0 0 ${width} ${height}`} role="group" aria-labelledby="map-title" aria-describedby="map-desc">
+      <title id="map-title">Mapa de la península de A Coruña</title>
+      <desc id="map-desc">Costa, playas, parques y calles a partir de datos de OpenStreetMap. Norte arriba: la Torre de Hércules al norte, la ensenada del Orzán al oeste y la Cidade Vella y el puerto al este. Los puntos numerados también se pueden seleccionar en la lista.</desc>
+      <defs><clipPath id="city-land-clip"><path d={land} /></clipPath></defs>
+      <path class="map-land" d={land} />
+      <g clip-path="url(#city-land-clip)" aria-hidden="true">
+        <path class="map-parks" d={paths('park')} />
+        <path class="map-local-roads" d={localRoads} />
+        <path class="map-major-roads" d={majorRoads} />
+        <path class="map-major-road-centers" d={majorRoads} />
+        <path class="map-footpaths" d={paths('path')} />
+      </g>
+      <path class="map-beaches" d={paths('beach')} aria-hidden="true" />
+      <g class="map-water-labels" aria-hidden="true">
+        <text x="117" y="255" text-anchor="middle"><tspan x="117">Ensenada</tspan><tspan x="117" dy="24">del Orzán</tspan></text>
+        <text x="623" y="322" text-anchor="middle"><tspan x="623">Ría da</tspan><tspan x="623" dy="24">Coruña</tspan></text>
+        <text x="115" y="57" class="map-ocean-label">Océano Atlántico</text>
+      </g>
+      <g class="neighborhood-labels" aria-hidden="true">
+        <text x="348" y="272" text-anchor="middle">MONTE ALTO</text>
+        <text x="171" y="529" text-anchor="middle">RIAZOR</text>
+        <text x="244" y="587" text-anchor="middle">ENSANCHE</text>
+        <text x="359" y="435" text-anchor="middle">PESCADERÍA</text>
+      </g>
+      <g class="map-place-labels" aria-hidden="true">
+        <text x="317" y="113">Torre de Hércules</text>
+        <text x="267" y="383" text-anchor="end">Orzán</text>
+        <text x="485" y="383" text-anchor="middle">Cidade Vella</text>
+        <text x="404" y="487">A Mariña</text>
+        <text x="199" y="443" text-anchor="middle" class="map-secondary-label">Riazor</text>
+        <text x="294" y="193" text-anchor="middle" class="map-secondary-label">As Lapas</text>
+        <text x="461" y="210" class="map-secondary-label">Santo Amaro</text>
+        <text x="553" y="646" class="map-secondary-label">Porto da Coruña</text>
+      </g>
+      {places.map((place, i) => <g class:list={['map-point', { selected: i === 0 }]} data-map-marker={place.id} role="button" tabindex="0" aria-label={`Seleccionar ${place.name}`} aria-pressed={i === 0}><circle class="map-point-hit" cx={place.x} cy={place.y} r="30"/><circle class="map-point-disc" cx={place.x} cy={place.y} r="19"/><text x={place.x} y={place.y + 4}>{place.number}</text></g>)}
+    </svg>
+    <div class="map-caption"><span>Costa, calles, parques y playas</span><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a></div>
+  </div>
+  <div class="map-panel">
+    <div class="map-panel-heading"><p class="eyebrow">CADA LUGAR, UNA HISTORIA</p><h3>Nos vemos<br />en el mapa.</h3></div>
+    <div class="filter-group" aria-label="Filtrar lugares">{['Todos', 'Patrimonio', 'Paseos'].map((label, i) => <button class:list={['filter-chip', { active: i === 0 }]} data-map-filter={i === 0 ? 'all' : label.toLowerCase()} aria-pressed={i === 0}>{label}</button>)}</div>
+    <div class="map-place-list">{places.map((place, i) => <button class:list={['map-place', { selected: i === 0 }]} data-map-place={place.id} data-category={place.category} data-description={place.description} aria-pressed={i === 0}><span>{place.number}</span><span>{place.name}<small>{place.label}</small></span></button>)}</div>
+    <p class="map-description" aria-live="polite">{places[0].description}</p>
+  </div>
+</div>

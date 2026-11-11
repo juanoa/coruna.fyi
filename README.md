@@ -1,0 +1,90 @@
+# coruna.info
+
+Una guía editorial de A Coruña. Primera entrega: sistema de diseño vivo en `/ds/`.
+
+## Desarrollo
+
+Node.js compatible con Astro 7 (este proyecto se ha validado con Node 24.10.0).
+
+```sh
+npm ci
+npm run dev
+```
+
+Abrir http://127.0.0.1:4321/ds/. La raíz redirige al sistema de diseño mientras se define la portada.
+
+```sh
+npm run check
+npm run build
+npm run preview
+```
+
+Astro 7.4.10 era la última versión estable publicada en npm al iniciar el proyecto. TypeScript se mantiene en la versión 6 por compatibilidad con `astro check`. Las dependencias resueltas están fijadas en `package-lock.json`.
+
+## Dirección de diseño
+
+- Papel y tinta como base; azul Atlántico para orientar; arena, barro y monte como acentos.
+- Apariencia clara y oscura automática mediante `prefers-color-scheme`: sigue al sistema desde el primer pintado y responde a sus cambios sin recargar. En `/ds`, el selector **System / Light / Dark** permite comparar las variantes. La vista previa se conserva durante la sesión de esa pestaña y elegir System restablece el comportamiento automático. La selección se restaura antes del primer pintado solo en el DS. El tema oscuro adapta superficies, texto, botones, etiquetas y mapa; las fotografías conservan su color. El DS muestra y copia los HEX activos y documenta los tonos auxiliares, incluido `--color-soft`.
+- Bitter para titulares y citas. Montserrat para lectura, navegación y datos prácticos. Fuentes alojadas en el propio sitio, sin solicitudes a Google Fonts.
+- Tarjetas de lugar con imagen, categoría con texto y color del catálogo sobre la foto, título e introducción, sin antetítulo ni pie. Variantes Grid y List. Las categorías reutilizan el componente `Tag.astro` de «Etiquetas y contexto», con el mismo tamaño, espaciado y colores.
+- Galería masonry en Componentes con 9 fotografías de A Coruña, proporciones originales y sin pies de foto. Tres columnas en escritorio, dos en tablet y una en móvil; carga diferida y dimensiones reservadas. Los créditos y licencias de cada foto están junto a la galería y en `src/data/gallery-images.json`.
+- Gallego integrado con naturalidad. Las palabras que necesitan glosa usan cursiva, barro, subrayado y un botón con significado en castellano. Los nombres propios mantienen su forma local.
+- Fotografías con color natural, texto alternativo y créditos. Formatos 3:2 para tarjetas, 4:5 para retratos y 16:9 para vídeo.
+- Cartografía SVG local, sin servicios de mapas en ejecución. Costa, calles, playas y parques proceden de OpenStreetMap, simplificados y proyectados sin deformar las proporciones. Los marcadores usan coordenadas geográficas; el estilo responde a Light y Dark.
+- Iconografía de [Lucide](https://lucide.dev/guide/astro), con el paquete oficial `@lucide/astro`. SVG estáticos de 12, 16, 20, 24 y 32 px, con trazo de 1 px para los tamaños de 12 y 16 px y de 1,5 px para el resto. El catálogo incluye ejemplos para mar, puerto, monumentos, barrios, gastronomía, rutas e historia. Los iconos decorativos están ocultos a lectores de pantalla; el texto o la etiqueta del control expresa la acción.
+- Sin logotipo ni favicon: la cabecera utiliza el nombre en texto.
+- Al copiar un color, una isla React con `AnimatePresence` sustituye el icono de copiar por un check durante dos segundos. Las copias repetidas reinician ese plazo; los fallos no muestran confirmación. Con movimiento reducido, el cambio usa solo opacidad.
+
+## Estructura
+
+```text
+src/
+  components/
+    Icon.astro          # Selección de Lucide y reglas compartidas
+    IconGallery.astro   # Catálogo y ejemplos de iconografía
+    CopyFeedback.tsx    # Confirmación animada de copia con Motion y Lucide React
+    ThemeControls.astro # Vista previa System / Light / Dark del DS
+    CityMap.astro       # Mapa SVG con lista, filtros y selección equivalente
+    GalicianWord.astro # Palabra con glosa accesible
+    PlaceCard.astro     # Tarjeta editorial de lugar
+    Video.astro         # Vídeo nativo o estado editorial sin contenido
+  layouts/Layout.astro # Documento HTML y fuentes
+  pages/ds.astro       # Catálogo y comportamientos de demostración
+  pages/index.astro    # Entrada al catálogo
+  styles/tokens.css   # Colores, familias, tamaños, espacios y radios
+  styles/dark.css     # Tokens oscuros; su hoja sigue al sistema o a la vista previa
+  styles/global.css   # Composición y componentes responsive
+public/images/        # Fotografías locales
+```
+
+Para cambiar el lenguaje visual, empezar por `src/styles/tokens.css`. Las piezas reutilizables usan propiedades tipadas. El catálogo es estático; solo los ejemplos interactivos envían JavaScript al navegador.
+
+## Vídeos
+
+El catálogo muestra explícitamente el estado sin metraje. El componente acepta `src`, `poster`, `title`, `caption` y `captionsSrc`; con `src` se convierte en un reproductor HTML nativo con controles, sin autoplay y `preload="none"`. Añadir subtítulos y una transcripción editorial cuando se publique metraje. No se carga ningún reproductor externo.
+
+## Modelo editorial propuesto
+
+Una futura ficha de lugar tendrá: identificador, nombre, resumen, tipo de contenido, barrio, temas, cuerpo editorial, fotografías con texto alternativo y licencia, coordenadas y datos prácticos verificados con fecha de revisión. Los artículos podrán relacionar lugares y palabras del glosario. Las rutas relacionarán lugares en orden.
+
+Las tarjetas actuales son muestras del sistema. No se han inventado horarios, precios, valoraciones ni datos de establecimientos. La página DS se marca `noindex` hasta crear la web pública; ese ajuste deberá separarse al añadir páginas editoriales.
+
+## Fotografías
+
+Descargadas de Wikimedia Commons y recortadas mediante CSS. Deben conservar sus créditos y licencias al reutilizarlas.
+
+- [Torre de Hércules — Diego Delso](https://commons.wikimedia.org/wiki/File:Torre_de_H%C3%A9rcules,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_35-37_HDR.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Marina — Jorge Castro Ruso](https://commons.wikimedia.org/wiki/File:Marina_-_A_Coru%C3%B1a.jpg), [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/).
+- [PulpoGallega — Tamorlan](https://commons.wikimedia.org/wiki/File:PulpoGallega.JPG), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+- [Monte de San Pedro — Luis Miguel Bugallo Sánchez (Lmbuga)](https://commons.wikimedia.org/wiki/File:Monte_de_San_Pedro._A_Coru%C3%B1a-c1.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Los créditos también están disponibles en la sección «Imagen y vídeo» del catálogo.
+
+## Datos del mapa
+
+La base geográfica es una extracción de **© OpenStreetMap contributors**, bajo [ODbL](https://www.openstreetmap.org/copyright), del 11 de noviembre de 2026. El crédito aparece junto al mapa. Los datos derivados están disponibles en `/data/coruna-map.geojson` con su atribución, licencia, fecha, extensión y geometrías en longitud/latitud. No se utilizan imágenes ni trazados extraídos de Google Maps.
+
+`src/data/coruna-map.json` contiene la costa, calles, playas y zonas verdes. El componente proyecta los datos a SVG al compilar: no carga teselas, APIs ni una biblioteca de mapas en el navegador. La escala se conserva con una proyección local equirectangular, corregida para la latitud de A Coruña.
+
+`scripts/build-city-map.py BASE.json DETAIL.json` reconstruye ese archivo a partir de dos exportaciones JSON de Overpass con `out geom`. BASE incluye costa (`natural=coastline`, bbox `43.350,-8.440,43.395,-8.375`), calles `primary|secondary|tertiary|residential|pedestrian|living_street`, parques y playas (bbox `43.355,-8.432,43.392,-8.382`). DETAIL incluye jardines, prados y césped (bbox `43.362,-8.425,43.392,-8.390`) y senderos `footway|cycleway|path` de la zona de la Torre (bbox `43.380,-8.414,43.392,-8.391`). El script une la costa, recorta el terreno y simplifica vértices con una tolerancia de 0,55 unidades del SVG.

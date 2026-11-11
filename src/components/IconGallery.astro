@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+
+import { iconography } from '../data/iconography';
+const samples = Object.values(iconography);
+---
+<section id="iconos" class="ds-section observed-section">
+  <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">05</span> ICONOGRAFÍA</p><h2>Un mismo trazo.<br />Todo un lugar.</h2></div><a href="https://lucide.dev/icons/" class="text-link" target="_blank" rel="noreferrer">La colección de Lucide <Icon name="arrow-up-right" /></a></div>
+  <p class="section-description">Iconos sencillos para orientarse por la ciudad. Una familia de líneas limpias, con el mismo peso y los colores de nuestra paleta.</p>
+  <div class="icon-gallery">{samples.map(sample => <div class={`icon-tile icon-tone-${sample.tone}`}><Icon name={sample.icon} size={32} /><h3>{sample.label}</h3><span>{sample.source}</span></div>)}</div>
+  <div class="icon-application">
+    <div><p class="eyebrow">EN CONTEXTO</p><div class="icon-context-links"><a href="#mapas" class="button primary"><Icon name="map-pin" /> Ver en el mapa</a><a href="#componentes" class="tag clay-tag"><Icon name="utensils" /> Sabores de aquí</a><a href="#mapas" class="tag moss-tag"><Icon name="footprints" /> Un paseo al aire libre</a></div></div>
+    <div class="icon-size-specimen"><p class="eyebrow">LA ESCALA</p><div>{([12, 16, 20, 24, 32] as const).map(size => <span><Icon name="anchor" size={size} /><small>{size} px</small></span>)}</div></div>
+  </div>
+  <div class="map-rules icon-rules"><div><span class="eyebrow">UN TRAZO COMPARTIDO</span><p>1 px de grosor en iconos de 12 y 16 px; 1,5 px en el resto de tamaños. Sin rellenos, con una única familia para categorías, enlaces y controles.</p></div><div><span class="eyebrow">A CADA ESCALA</span><p>12 px para detalles compactos, 16 px junto al texto, 20 px en controles y 24–32 px para categorías y piezas destacadas.</p></div><div><span class="eyebrow">SIEMPRE CON SENTIDO</span><p>El icono acompaña al texto. Los botones sin texto necesitan un nombre accesible y un área de al menos 44 × 44 px.</p></div></div>
+</section>

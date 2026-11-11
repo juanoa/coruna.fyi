@@ -1,0 +1,18 @@
+---
+import { iconography } from '../data/iconography';
+import Tag from './Tag.astro';
+
+interface Props {
+  image: string; alt: string; category: keyof typeof iconography; categoryLabel?: string;
+  title: string; description: string; featured?: boolean;
+}
+const { image, alt, category, categoryLabel, title, description, featured = false } = Astro.props;
+const categoryStyle = iconography[category];
+---
+<article class:list={['place-card', { featured }]}>
+  <div class="card-image"><img src={image} alt={alt} width="720" height="480" loading="lazy" /><Tag class="image-tag" tone={categoryStyle.tone}>{categoryLabel ?? categoryStyle.label}</Tag></div>
+  <div class="card-body">
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
+</article>

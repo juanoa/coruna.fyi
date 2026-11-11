@@ -1,0 +1,10 @@
+---
+interface Props {
+  tone?: 'sea' | 'clay' | 'moss' | 'neutral';
+  class?: string;
+  lang?: string;
+}
+
+const { tone = 'neutral', class: className, lang } = Astro.props;
+---
+<span class:list={['tag', `${tone}-tag`, className]} lang={lang}><slot /></span>

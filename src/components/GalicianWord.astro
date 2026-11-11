@@ -1,0 +1,9 @@
+---
+interface Props { word: string; meaning: string; light?: boolean }
+const { word, meaning, light = false } = Astro.props;
+const definitionId = `word-${crypto.randomUUID()}`;
+---
+<span class:list={['galician-word', { 'on-dark': light }]}>
+  <button class="word-trigger" aria-label={`${word}, ver significado en castellano`} aria-expanded="false" aria-controls={definitionId}><span lang="gl">{word}</span><sup aria-hidden="true">gl</sup></button>
+  <span class="word-definition" id={definitionId} hidden><span class="eyebrow">EN CASTELLANO</span><span>{meaning}</span></span>
+</span>

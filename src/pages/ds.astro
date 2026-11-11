@@ -1,0 +1,224 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GalicianWord from '../components/GalicianWord.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import Tag from '../components/Tag.astro';
+import CityMap from '../components/CityMap.astro';
+import Video from '../components/Video.astro';
+import Icon from '../components/Icon.astro';
+import IconGallery from '../components/IconGallery.astro';
+import ImageGallery from '../components/ImageGallery.astro';
+import ThemeControls from '../components/ThemeControls.astro';
+import CopyFeedback from '../components/CopyFeedback';
+const sections = [
+  ['fundamentos', 'Introducción'], ['color', 'Color'], ['tipografia', 'Tipografía'],
+  ['componentes', 'Componentes'], ['iconos', 'Iconos'], ['imagen', 'Imagen y vídeo'], ['mapas', 'Cartografía'],
+  ['galego', 'Un poco de galego'], ['estructura', 'Espacio y estructura'],
+];
+const colors = [
+  { name: 'Atlántico', token: 'sea', hex: '#245B73', use: 'Enlaces y acciones', foreground: 'on-accent' },
+  { name: 'Papel', token: 'paper', hex: '#FCFCFA', use: 'El lienzo de todo', foreground: 'ink' },
+  { name: 'Tinta', token: 'ink', hex: '#202E36', use: 'Texto y titulares', foreground: 'paper' },
+  { name: 'Area', token: 'sand', hex: '#E9DDC5', use: 'Calidez y contexto', foreground: 'on-sand' },
+  { name: 'Barro', token: 'clay', hex: '#AC4B36', use: 'Lengua y detalles', foreground: 'on-clay' },
+  { name: 'Monte', token: 'moss', hex: '#52674C', use: 'Naturaleza y rutas', foreground: 'on-moss' },
+];
+const supportColors = [
+  { name: 'Superficie', token: 'surface', hex: '#FFFFFF', use: 'Tarjetas y paneles' },
+  { name: 'Fondo secundario', token: 'soft', hex: '#EEEEE7', use: 'Notas y bloques de apoyo' },
+  { name: 'Texto secundario', token: 'muted', hex: '#616E6B', use: 'Contexto y metadatos' },
+  { name: 'Bordes', token: 'line', hex: '#DDDFD7', use: 'Contornos de componentes' },
+  { name: 'Atlántico suave', token: 'sea-light', hex: '#E7EFF0', use: 'Navegación y mar del mapa' },
+  { name: 'Barro suave', token: 'clay-light', hex: '#F5E8DF', use: 'Selección y etiquetas' },
+  { name: 'Monte suave', token: 'moss-light', hex: '#E7ECDF', use: 'Etiquetas de naturaleza' },
+];
+---
+<Layout title="Sistema de diseño — coruna.info" description="El punto de partida de coruna.info. Un sistema de diseño editorial, atlántico y cercano para contar A Coruña." themePreview>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <aside class="sidebar">
+    <a class="site-name" href="/ds/" aria-label="coruna.info, inicio del sistema de diseño">coruna<span>.info</span></a>
+    <div class="sidebar-intro">Sistema de diseño <span class="version">v0.1</span></div>
+    <ThemeControls />
+    <nav aria-label="Secciones del sistema de diseño">{sections.map(([id, label], i) => <a href={`#${id}`} class:list={['nav-item', { active: i === 0 }]} aria-current={i === 0 ? 'location' : undefined}><span class="nav-number">{String(i + 1).padStart(2, '0')}</span>{label}</a>)}</nav>
+    <div class="sidebar-note"><p>Feito con calma.<br /><span>Pensado para A Coruña.</span></p><span class="sidebar-coordinate">43°22′ N &nbsp; 8°24′ O</span></div>
+  </aside>
+  <div class="page-shell">
+
+    <main id="contenido">
+      <section id="fundamentos" class="intro-section observed-section">
+        <div class="hero">
+          <div class="hero-copy"><h1>Una ciudad.<br />Muchas formas<br />de <em>contarla.</em></h1><p>El mar, los barrios, la mesa y las palabras.<br class="desktop-break" /> Un lenguaje visual para descubrir A Coruña<br class="desktop-break" /> con la curiosidad de quien llega y el cariño<br class="desktop-break" /> de quien se queda.</p><a class="button primary" href="#color">Así empieza todo <Icon name="arrow-down-right" /></a></div>
+          <figure class="hero-image"><img src="/images/torre.jpg" alt="La Torre de Hércules se alza sobre la costa de A Coruña al amanecer" width="1000" height="1100" fetchpriority="high" /><div class="photo-note"><span lang="gl">O noso norte.</span><span>A TORRE · A CORUÑA</span></div><figcaption>Una identidad que empieza en el lugar.</figcaption></figure>
+        </div>
+        <div class="principles"><div><span>01</span><h3>Atlántico</h3><p>La luz, la piedra y el mar.<br />Nuestra paleta ya estaba aquí.</p></div><div><span>02</span><h3>Editorial</h3><p>Historias que apetece leer.<br />Espacio para mirar y detenerse.</p></div><div><span>03</span><h3>De aquí</h3><p>Una voz cercana y con raíces.<br />Sin perder el acento.</p></div></div>
+      </section>
+
+      <section id="color" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">02</span> LA PALETA</p><h2>Los colores ya estaban aquí.</h2></div><span class="section-aside" lang="en" data-system-theme>System</span></div>
+        <p class="section-description">El papel deja respirar. La tinta cuenta. El Atlántico guía. El resto pone el acento.</p>
+        <div class="color-grid">{colors.map(color => <button class="color-swatch" data-color-token={color.token} data-color-name={color.name} data-copy={color.hex} aria-label={`Copiar ${color.name}: ${color.hex}`}><span class="swatch-paint" style={`--swatch: var(--color-${color.token}); --swatch-ink: var(--color-${color.foreground})`}><span>{color.name}</span><span class="swatch-action"><CopyFeedback client:load /></span></span><span class="swatch-meta"><strong data-color-value>{color.hex}</strong><span>{color.use}</span></span></button>)}</div>
+        <div class="usage-note"><span class="eyebrow">LA REGLA</span><p>Mucho papel y tinta. Azul para orientar. Barro y monte, en pequeñas dosis. El color acompaña al contenido, sin competir con él.</p><span class="copy-hint">Pulsa un color para copiarlo.</span></div>
+        <section class="support-colors" aria-labelledby="support-colors-title"><h3 id="support-colors-title">Superficies y tonos de apoyo</h3><p>Estos tonos completan la paleta. Sus funciones se mantienen en Light y Dark. Usa el selector de apariencia para compararlos o elige System para seguir el ajuste automático.</p><div class="support-color-grid">{supportColors.map(color => <button class="support-color" data-color-token={color.token} data-color-name={color.name} data-copy={color.hex} aria-label={`Copiar ${color.name}: ${color.hex}`}><span class="support-color-chip" style={`background: var(--color-${color.token})`}></span><span><strong>{color.name}</strong><small>{color.use}</small><span data-color-value>{color.hex}</span></span><span class="support-color-copy"><CopyFeedback client:load /></span></button>)}</div></section>
+      </section>
+
+      <section id="tipografia" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">03</span> TIPOGRAFÍA</p><h2>Carácter en el titular.<br />Claridad en cada línea.</h2></div></div>
+        <div class="font-pair"><div class="font-specimen display-specimen"><div class="specimen-top"><span class="eyebrow">01 · LA VOZ EDITORIAL</span><span>Serif</span></div><div class="big-letter">Aa<span>g</span></div><h3>Bitter</h3><p>Para contar historias, dar protagonismo a un lugar y dejar que una palabra tenga carácter.</p><div class="font-alphabet">Aa Bb Cc Dd Ee Ff Gg Hh Ii Ññ<br /><em>A Coruña, a cidade que queremos.</em></div></div><div class="font-specimen sans-specimen"><div class="specimen-top"><span class="eyebrow">02 · LA VOZ COTIDIANA</span><span>Sans serif</span></div><div class="big-letter">Aa<span>g</span></div><h3>Montserrat</h3><p>Para leer sin esfuerzo, encontrar el camino y entender lo práctico a la primera.</p><div class="font-alphabet">Aa Bb Cc Dd Ee Ff Gg Hh Ii Ññ<br />0123456789 · ¿Quedamos aquí?</div></div></div>
+        <div class="type-scale"><div><span class="type-meta">H1 52–80 PX</span><span class="type-h1">El mar, siempre cerca.</span></div><div><span class="type-meta">H2 32–44 PX</span><span class="type-h2">Una ciudad para caminar.</span></div><div><span class="type-meta">H3 28 PX</span><span class="type-h3">Historias de cada barrio</span></div><div><span class="type-meta">BODY 16–18 PX</span><span class="type-body">Hay lugares que se descubren mejor sin mirar el reloj.</span></div><div><span class="type-meta">LABEL 11 PX</span><span class="eyebrow">BARRIOS · HISTORIAS · VIDA LOCAL</span></div></div>
+      </section>
+
+      <section id="componentes" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">04</span> COMPONENTES</p><h2>Pequeñas piezas.<br />Muchas posibilidades.</h2></div></div>
+        <div class="component-toolbar"><span class="eyebrow">TARJETAS DE LUGAR</span><div class="segmented-control" aria-label="Formato de tarjetas"><button data-card-layout="grid" aria-pressed="true" lang="en">Grid</button><button data-card-layout="list" aria-pressed="false" lang="en">List</button></div></div>
+        <div class="cards-grid" id="place-cards"><PlaceCard image="/images/torre.jpg" alt="Torre de Hércules al amanecer sobre su entorno verde" category="monuments" categoryLabel="Qué ver" title="El faro que nos guía" description="Hay muchas formas de mirar al mar. Esta es una de nuestras favoritas." /><PlaceCard image="/images/polbo.jpg" alt="Plato de pulpo con pimentón, aceite de oliva y patatas" category="local-food" title="El sabor de nuestra costa" description="Pulpo, aceite y pimentón. Sabores de aquí para compartir alrededor de la mesa." /><PlaceCard image="/images/monte-san-pedro.jpg" alt="Praderas del monte de San Pedro con vistas al mar y a la ciudad de A Coruña" category="nature" title="Respirar desde lo alto" description="Un paseo por el monte de San Pedro, entre praderas y vistas al Atlántico." /></div>
+        <div class="component-grid"><div class="component-box"><span class="eyebrow">ACCIONES Y ENLACES</span><div class="button-samples"><a href="#mapas" class="button primary">Descubrir un lugar <Icon name="arrow-up-right" /></a><a href="#galego" class="button secondary">Leer una historia</a><button class="button" disabled>No disponible</button><a href="#estructura" class="button tertiary">Seguir explorando <Icon name="arrow-up-right" /></a></div><p class="component-note">Una misma escala: 44 px de alto, texto de 13 px y 12 px entre acciones. El color y el borde distinguen la jerarquía.</p></div><div class="component-box"><span class="eyebrow">ETIQUETAS Y CONTEXTO</span><div class="tag-samples"><Tag tone="sea">Patrimonio</Tag><Tag tone="moss">Al aire libre</Tag><Tag tone="clay" lang="gl">Feito aquí</Tag><Tag>Historia local</Tag></div><div class="metadata-sample"><span>Lectura de ejemplo</span><span>5 min de lectura</span></div><p class="component-note">Categorías claras, metadatos discretos y sin información que haga ruido.</p></div></div>
+        <ImageGallery />
+      </section>
+
+      <IconGallery />
+
+      <section id="imagen" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">06</span> IMAGEN Y VÍDEO</p><h2>Dejar que el lugar hable.</h2></div></div>
+        <p class="section-description">Fotografías con contexto, color natural y espacio para mirar. El encuadre se adapta a la historia.</p>
+        <div class="media-grid"><figure class="photo-example"><div class="image-frame"><img src="/images/marina.jpg" alt="Las galerías blancas de A Mariña vistas desde el paseo" width="800" height="1000" loading="lazy" /><span class="image-ratio">4:5 RETRATO</span></div><figcaption><span>A Mariña, una mañana cualquiera.</span><span>Pie de foto + autoría</span></figcaption></figure><div class="media-right"><Video poster="/images/torre.jpg" title="El Atlántico, sin prisa." caption="16:9 · Reproducción a elección del visitante · Sin autoplay" /><div class="media-guidelines"><p><span>01</span>La imagen cuenta algo. No rellena un hueco.</p><p><span>02</span>Texto alternativo, pie y crédito en cada historia.</p><p><span>03</span>Vídeos con controles, subtítulos y transcripción.</p></div></div></div>
+        <details class="credits"><summary>Créditos de las fotografías de esta página</summary><p>Torre de Hércules: <a href="https://commons.wikimedia.org/wiki/File:Torre_de_H%C3%A9rcules,_La_Coru%C3%B1a,_Espa%C3%B1a,_2015-09-25,_DD_35-37_HDR.jpg" target="_blank" rel="noreferrer">Diego Delso · CC BY-SA 4.0</a>. A Mariña: <a href="https://commons.wikimedia.org/wiki/File:Marina_-_A_Coru%C3%B1a.jpg" target="_blank" rel="noreferrer">Jorge Castro Ruso · CC BY-SA 2.0</a>. Pulpo: <a href="https://commons.wikimedia.org/wiki/File:PulpoGallega.JPG" target="_blank" rel="noreferrer">Tamorlan · CC BY-SA 3.0</a>. Monte de San Pedro: <a href="https://commons.wikimedia.org/wiki/File:Monte_de_San_Pedro._A_Coru%C3%B1a-c1.jpg" target="_blank" rel="noreferrer">Luis Miguel Bugallo Sánchez (Lmbuga) · CC BY-SA 4.0</a>. Wikimedia Commons. Imágenes recortadas para mostrar los formatos del sistema.</p></details>
+      </section>
+
+      <section id="mapas" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">07</span> CARTOGRAFÍA PROPIA</p><h2>Otra forma de encontrarnos.</h2></div></div>
+        <p class="section-description">La península, las playas y el puerto, con su trazado real. Costa, calles y zonas verdes dibujadas en SVG con los colores de la web. Selecciona un lugar para explorarlo.</p>
+        <CityMap />
+        <div class="map-rules"><div><span class="eyebrow">BASE GEOGRÁFICA</span><p>Costa y calles proceden de OpenStreetMap, con norte arriba y proporciones geográficas. El detalle se simplifica para esta escala.</p></div><div><span class="eyebrow">LUGARES CON NOMBRE</span><p>Puntos numerados, nombres siempre visibles y una lista equivalente para teclado y lectores de pantalla.</p></div><div><span class="eyebrow">SIN MAPAS INCRUSTADOS</span><p>Una cartografía propia, ligera y adaptable. Sin Google Maps ni servicios externos para dibujarla.</p></div></div>
+      </section>
+
+      <section id="galego" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">08</span> A NOSA LINGUA</p><h2>Palabras que son de aquí.</h2></div></div>
+        <div class="language-demo"><div class="language-story"><span class="eyebrow">EL GALLEGO, DENTRO DE LA HISTORIA</span><p>Hay días de <GalicianWord word="orballo" meaning="Lluvia fina y persistente." /> en los que apetece refugiarse. Y otros en los que el cuerpo pide <GalicianWord word="lambetadas" meaning="Golosinas, dulces o pequeños caprichos para el paladar." /> y un paseo hasta que llegue el <GalicianWord word="luscofusco" meaning="La luz tenue del anochecer, entre el día y la noche." />.</p><span class="language-hint">Pulsa una palabra subrayada para descubrir su significado.</span></div><div class="language-rule"><span class="eyebrow">CON NATURALIDAD</span><h3>No es decoración.<br />Es nuestra voz.</h3><p>Barro, cursiva y un subrayado fino identifican las palabras con glosa. La traducción se abre al pulsar y también con el teclado.</p><p>Los nombres propios conservan su forma local: A Coruña, Cidade Vella, A Mariña. No necesitan ir marcados.</p></div></div>
+        <blockquote class="quote"><span class="eyebrow">ASÍ SONAMOS</span><p>«Ven por lo que has oído.<br />Quédate por lo que <em>vas a sentir.</em>»</p></blockquote>
+      </section>
+
+      <section id="estructura" class="ds-section observed-section">
+        <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">09</span> ESPACIO Y ESTRUCTURA</p><h2>Un poco de orden.<br />Mucho aire.</h2></div></div>
+        <div class="structure-grid"><div class="component-box"><p class="eyebrow">RITMO BASE DE 4 PX</p><div class="spacing-scale">{[4, 8, 12, 16, 24, 32, 48, 64].map(size => <div><span style={`height: ${size}px`}></span><small>{size}</small></div>)}</div><p class="component-note">8–16 px dentro de una pieza. 24–32 px entre piezas. 64–96 px para cambiar de tema.</p></div><div class="component-box"><p class="eyebrow">FORMAS</p><div class="radius-samples"><div style="border-radius:4px">4 px</div><div style="border-radius:8px">8 px</div><div style="border-radius:16px">16 px</div><div style="border-radius:999px">Pill</div></div><p class="component-note">Bordes sutiles, superficies planas y esquinas suaves. Las formas especiales se reservan para imágenes protagonistas.</p></div></div>
+        <div class="reading-note"><span class="eyebrow">PENSADO PARA LEER, EN CUALQUIER PANTALLA</span><p>Una columna de hasta 65 caracteres para artículos. Rejillas de tres, dos o una tarjeta según el espacio. Texto que crece con la pantalla y controles que siempre se pueden alcanzar.</p></div>
+      </section>
+      <footer class="page-footer"><div><a class="site-name" href="#fundamentos">coruna<span>.info</span></a><p>Una guía que empieza por tener una voz propia.</p></div><div><a href="#fundamentos">Volver al principio <Icon name="arrow-up" /></a></div></footer>
+    </main>
+  </div>
+  <div class="toast" role="status" aria-live="polite"></div>
+</Layout>
+
+<script>
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const darkStyles = document.querySelector<HTMLLinkElement>('#dark-theme-styles')!;
+  const themeChoices = [...document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]')];
+  function syncColorSamples() {
+    const tokens = getComputedStyle(document.documentElement);
+    document.querySelectorAll<HTMLButtonElement>('[data-color-token]').forEach(swatch => {
+      const value = tokens.getPropertyValue(`--color-${swatch.dataset.colorToken}`).trim().toUpperCase();
+      swatch.dataset.copy = value;
+      swatch.setAttribute('aria-label', `Copiar ${swatch.dataset.colorName}: ${value}`);
+      const label = swatch.querySelector('[data-color-value]');
+      if (label) label.textContent = value;
+    });
+    const choice = document.documentElement.dataset.theme ?? 'system';
+    const dark = choice === 'dark' || (choice === 'system' && systemTheme.matches);
+    themeChoices.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === choice)));
+    document.querySelector('[data-system-theme]')!.textContent = `${choice === 'system' ? 'System' : 'Preview'} · ${dark ? 'Dark' : 'Light'}`;
+  }
+  themeChoices.forEach(button => button.addEventListener('click', () => {
+    const choice = button.dataset.themeChoice!;
+    if (choice === 'system') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = choice;
+    darkStyles.media = choice === 'system' ? '(prefers-color-scheme: dark)' : choice === 'dark' ? 'all' : 'not all';
+    document.querySelectorAll<HTMLMetaElement>('meta[data-scheme]').forEach(meta => {
+      meta.media = choice === 'system' ? `(prefers-color-scheme: ${meta.dataset.scheme})` : meta.dataset.scheme === choice ? 'all' : 'not all';
+    });
+    try {
+      if (choice === 'system') sessionStorage.removeItem('coruna-ds-theme');
+      else sessionStorage.setItem('coruna-ds-theme', choice);
+    } catch {}
+    syncColorSamples();
+  }));
+  darkStyles.addEventListener('load', syncColorSamples);
+  systemTheme.addEventListener('change', syncColorSamples);
+  syncColorSamples();
+
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('.nav-item')];
+  const observedSections = [...document.querySelectorAll<HTMLElement>('.observed-section')];
+  function updateNavigation() {
+    const offset = window.innerWidth <= 760 ? 200 : 90;
+    const current = observedSections.filter(section => section.getBoundingClientRect().top <= offset).at(-1) ?? observedSections[0];
+    navLinks.forEach(link => {
+      const active = link.hash === `#${current.id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+    });
+  }
+  let navigationFrame = 0;
+  window.addEventListener('scroll', () => {
+    if (navigationFrame) return;
+    navigationFrame = requestAnimationFrame(() => { updateNavigation(); navigationFrame = 0; });
+  }, { passive: true });
+  window.addEventListener('resize', updateNavigation);
+  updateNavigation();
+
+  let toastTimeout: ReturnType<typeof setTimeout>;
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+    const value = button.dataset.copy!;
+    const toast = document.querySelector<HTMLElement>('.toast')!;
+    try { await navigator.clipboard.writeText(value); button.dispatchEvent(new Event('color-copied')); toast.textContent = `${value} copiado. Un pedacito de Coruña.`; }
+    catch { toast.textContent = `Color seleccionado: ${value}. Puedes copiarlo del muestrario.`; }
+    toast.classList.add('visible'); clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('visible'), 3000);
+  }));
+
+  document.querySelectorAll<HTMLButtonElement>('[data-card-layout]').forEach(button => button.addEventListener('click', () => {
+    document.querySelector('#place-cards')?.classList.toggle('list-layout', button.dataset.cardLayout === 'list');
+    document.querySelectorAll<HTMLButtonElement>('[data-card-layout]').forEach(control => control.setAttribute('aria-pressed', String(control === button)));
+  }));
+
+  const mapPlaces = [...document.querySelectorAll<HTMLButtonElement>('[data-map-place]')];
+  function selectPlace(button: HTMLButtonElement) {
+    mapPlaces.forEach(place => { place.classList.toggle('selected', place === button); place.setAttribute('aria-pressed', String(place === button)); });
+    document.querySelectorAll<SVGElement>('[data-map-marker]').forEach(marker => {
+      const active = marker.dataset.mapMarker === button.dataset.mapPlace;
+      marker.classList.toggle('selected', active); marker.setAttribute('aria-pressed', String(active));
+    });
+    document.querySelector('.map-description')!.textContent = button.dataset.description!;
+  }
+  mapPlaces.forEach(button => button.addEventListener('click', () => selectPlace(button)));
+  document.querySelectorAll<SVGElement>('[data-map-marker]').forEach(marker => {
+    const select = () => { const place = mapPlaces.find(place => place.dataset.mapPlace === marker.dataset.mapMarker); if (place) selectPlace(place); };
+    marker.addEventListener('click', select);
+    marker.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select(); } });
+  });
+  document.querySelectorAll<HTMLButtonElement>('[data-map-filter]').forEach(button => button.addEventListener('click', () => {
+    const filter = button.dataset.mapFilter;
+    document.querySelectorAll<HTMLButtonElement>('[data-map-filter]').forEach(control => { control.classList.toggle('active', control === button); control.setAttribute('aria-pressed', String(control === button)); });
+    mapPlaces.forEach(place => {
+      const hidden = filter !== 'all' && place.dataset.category !== filter;
+      place.hidden = hidden;
+      const marker = document.querySelector<SVGElement>(`[data-map-marker="${place.dataset.mapPlace}"]`);
+      if (marker) marker.style.display = hidden ? 'none' : '';
+    });
+    const selected = mapPlaces.find(place => place.getAttribute('aria-pressed') === 'true');
+    if (selected?.hidden) { const first = mapPlaces.find(place => !place.hidden); if (first) selectPlace(first); }
+  }));
+
+  const wordButtons = [...document.querySelectorAll<HTMLButtonElement>('.word-trigger')];
+  function closeWords() { wordButtons.forEach(button => { button.setAttribute('aria-expanded', 'false'); document.getElementById(button.getAttribute('aria-controls')!)!.hidden = true; }); }
+  wordButtons.forEach(button => button.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true'; closeWords();
+    if (!open) return;
+    button.setAttribute('aria-expanded', 'true');
+    const definition = document.getElementById(button.getAttribute('aria-controls')!)!;
+    definition.hidden = false;
+    definition.style.left = '0px';
+    const bounds = definition.getBoundingClientRect();
+    if (bounds.right > window.innerWidth - 20) definition.style.left = `${window.innerWidth - 20 - bounds.right}px`;
+  }));
+  document.addEventListener('click', event => { if (!(event.target as Element).closest('.galician-word')) closeWords(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeWords(); });
+
+</script>

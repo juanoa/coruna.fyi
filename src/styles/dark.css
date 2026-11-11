@@ -1,0 +1,26 @@
+/* Loaded through a media-aware stylesheet. Higher specificity than base tokens. */
+html:root {
+  color-scheme: dark;
+  --color-paper: #121b20;
+  --color-surface: #1b272d;
+  --color-ink: #e8eeec;
+  --color-muted: #a1afae;
+  --color-line: #34454b;
+  --color-sea: #8bbfce;
+  --color-sea-dark: #b1d6e0;
+  --color-sea-light: #203b45;
+  --color-sand: #cbb995;
+  --color-clay: #e49a80;
+  --color-clay-light: #422d27;
+  --color-moss: #acc39d;
+  --color-moss-light: #2a3c2b;
+  --color-soft: #223036;
+  --color-sand-border: #6d604b;
+  --color-map-border: #4c6461;
+  --color-map-park: #2e4336;
+  --color-on-accent: #10252e;
+  --color-on-sand: #202e36;
+  --color-on-clay: #221712;
+  --color-on-moss: #172319;
+  --color-popover: #26383f;
+  --color-popover-ink: #e8eeec;}
