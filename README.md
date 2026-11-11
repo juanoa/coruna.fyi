@@ -53,13 +53,26 @@ src/
   layouts/Layout.astro # Documento HTML y fuentes
   pages/ds.astro       # Catálogo y comportamientos de demostración
   pages/index.astro    # Entrada al catálogo
-  styles/tokens.css   # Colores, familias, tamaños, espacios y radios
   styles/dark.css     # Tokens oscuros; su hoja sigue al sistema o a la vista previa
-  styles/global.css   # Composición y componentes responsive
+  styles/global.css   # Tailwind 4 y tema: colores, tipografía, tamaños y breakpoints
 public/images/        # Fotografías locales
 ```
 
-Para cambiar el lenguaje visual, empezar por `src/styles/tokens.css`. Las piezas reutilizables usan propiedades tipadas. El catálogo es estático; solo los ejemplos interactivos envían JavaScript al navegador.
+Para cambiar el lenguaje visual, empezar por el bloque `@theme` de `src/styles/global.css`. Las piezas reutilizables usan propiedades tipadas. El catálogo es estático; solo los ejemplos interactivos envían JavaScript al navegador.
+
+## Estilos con Tailwind
+
+Tailwind CSS **4.3.5** y `@tailwindcss/vite` se integran en `astro.config.mjs`. La hoja global importa Tailwind y define el tema con la configuración CSS de la versión 4. Las paletas, familias, tamaños de texto, radios y breakpoints predeterminados se sustituyen por los del proyecto; el espaciado mantiene una base de 4 px.
+
+Los componentes y páginas se componen con utilidades en `class`, `class:list` o `className`, sin hojas de estilos de componentes ni `@apply`. Ejemplos: `bg-paper text-ink`, `font-display text-h2`, `text-sm leading-copy`, `min-h-control`, `max-w-reading`, `rounded-card` y `gap-3`. Los valores singulares de composición usan utilidades arbitrarias.
+
+- Colores semánticos: `paper`, `surface`, `ink`, `muted`, `line`, `sea`, `sand`, `clay`, `moss` y sus variantes. `src/styles/dark.css` solo cambia los tokens del tema; las mismas clases sirven para ambas apariencias.
+- Tipografía: `font-body` y `font-display`; escala de `text-3xs` a `text-6xl`, junto con `text-h1`, `text-h2`, `text-h3` y tamaños fluidos editoriales. Los tamaños de texto no imponen interlineado: se combina con `leading-*`.
+- Tamaños: `min-h-control` (44 px), `w-sidebar`, `max-w-shell` y `max-w-reading`. Radios `rounded-sm` (4 px), `rounded-md` (8 px), `rounded-lg` (16 px), `rounded-pill` y los específicos de fotografías, tarjetas y controles.
+- Breakpoints: `xs` 361 px, `sm` 541 px, `md` 761 px, `lg` 1021 px, `xl` 1201 px y `2xl` 1600 px. Las variantes `max-*` conservan los puntos de cambio del diseño anterior.
+- Estados: atributos `aria-pressed`, `aria-current`, `hidden` y `data-*`, con variantes de Tailwind. JavaScript actualiza estos atributos, sin aplicar estilos inline ni alternar clases de CSS propias. Motion conserva la animación de copia y su alternativa con movimiento reducido.
+
+Las clases elegidas a partir de datos se declaran completas en mapas tipados o literales, para que Tailwind pueda detectarlas durante la compilación; no construir fragmentos como `bg-${color}`.
 
 ## Vídeos
 
