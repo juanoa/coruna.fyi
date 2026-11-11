@@ -1,8 +1,47 @@
 ---
-interface Props { src?: string; poster: string; title: string; caption: string; captionsSrc?: string }
+interface Props {
+  src?: string;
+  poster: string;
+  title: string;
+  caption: string;
+  captionsSrc?: string;
+}
 const { src, poster, title, caption, captionsSrc } = Astro.props;
 ---
-<figure class="video-example">
-  {src ? <video controls preload="none" poster={poster} aria-label={title} playsinline>{captionsSrc && <track kind="captions" src={captionsSrc} srclang="es" label="Español" default />}<source src={src} /></video> : <div class="video-empty" style={`background-image: linear-gradient(0deg, rgb(15 33 42 / .78), transparent 75%), url('${poster}')`}><span class="video-status">VÍDEO EDITORIAL · 16:9</span><div><h3>{title}</h3><p>Este espacio espera su primera historia en vídeo.</p></div></div>}
-  <figcaption>{caption}</figcaption>
+
+<figure class="m-0 [&_video]:aspect-[16/9] [&_video]:rounded-control [&_video]:bg-popover">
+  {src ? (
+    <video
+      controls
+      preload="none"
+      poster={poster}
+      aria-label={title}
+      playsinline
+      class="block w-full object-cover"
+    >
+      {captionsSrc && <track kind="captions" src={captionsSrc} srclang="es" label="Español" default />}
+      <source src={src} />
+    </video>
+  ) : (
+    <div class="aspect-[16/9] bg-cover bg-center rounded-control p-6 flex flex-col justify-between text-white [&_h3]:text-4xl [&_p]:text-caption [&_p]:mt-2 [&_p]:text-white max-sm:p-5.5 max-sm:[&_h3]:text-[35px] max-sm:[&_p]:text-meta relative overflow-hidden [&>span]:relative [&>div:last-child]:relative">
+      <img
+        src={poster}
+        alt=""
+        width="1000"
+        height="1100"
+        loading="lazy"
+        class="block absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        class="absolute inset-0 bg-linear-to-t from-video-shade to-transparent to-75%"
+        aria-hidden="true"
+      ></div>
+      <span class="text-2xs tracking-[.1em]">VÍDEO EDITORIAL · 16:9</span>
+      <div>
+        <h3 class="m-0 font-display font-[450] leading-heading tracking-heading text-h3">{title}</h3>
+        <p class="m-0">Este espacio espera su primera historia en vídeo.</p>
+      </div>
+    </div>
+  )}
+  <figcaption class="mt-2.75 text-caption text-muted leading-[1.7]">{caption}</figcaption>
 </figure>

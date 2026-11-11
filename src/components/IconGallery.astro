@@ -2,15 +2,114 @@
 import Icon from './Icon.astro';
 
 import { iconography } from '../data/iconography';
+const tones = { sea: 'text-sea', clay: 'text-clay', moss: 'text-moss' };
 const samples = Object.values(iconography);
 ---
-<section id="iconos" class="ds-section observed-section">
-  <div class="section-heading"><div><p class="eyebrow section-kicker"><span class="section-number">05</span> ICONOGRAFÍA</p><h2>Un mismo trazo.<br />Todo un lugar.</h2></div><a href="https://lucide.dev/icons/" class="text-link" target="_blank" rel="noreferrer">La colección de Lucide <Icon name="arrow-up-right" /></a></div>
-  <p class="section-description">Iconos sencillos para orientarse por la ciudad. Una familia de líneas limpias, con el mismo peso y los colores de nuestra paleta.</p>
-  <div class="icon-gallery">{samples.map(sample => <div class={`icon-tile icon-tone-${sample.tone}`}><Icon name={sample.icon} size={32} /><h3>{sample.label}</h3><span>{sample.source}</span></div>)}</div>
-  <div class="icon-application">
-    <div><p class="eyebrow">EN CONTEXTO</p><div class="icon-context-links"><a href="#mapas" class="button primary"><Icon name="map-pin" /> Ver en el mapa</a><a href="#componentes" class="tag clay-tag"><Icon name="utensils" /> Sabores de aquí</a><a href="#mapas" class="tag moss-tag"><Icon name="footprints" /> Un paseo al aire libre</a></div></div>
-    <div class="icon-size-specimen"><p class="eyebrow">LA ESCALA</p><div>{([12, 16, 20, 24, 32] as const).map(size => <span><Icon name="anchor" size={size} /><small>{size} px</small></span>)}</div></div>
+
+<section id="iconos" class="pt-16 pr-0 pb-0 pl-0 mt-16 max-md:pt-10.75 max-md:mt-10.75" data-observed-section>
+  <div class="flex justify-between items-end gap-6 max-md:[&_h2]:text-[34px] max-sm:block max-sm:[&_h2]:text-5xl">
+    <div>
+      <p
+        class="m-0 not-italic font-medium leading-normal font-body tracking-eyebrow text-sea text-meta mb-3.5"
+        data-eyebrow
+      >
+        <span class="mr-3">05</span> ICONOGRAFÍA
+      </p>
+      <h2 class="m-0 font-display font-[450] leading-heading tracking-heading text-h2">
+        Un mismo trazo.
+        <br />
+        Todo un lugar.
+      </h2>
+    </div>
+    <a
+      href="https://lucide.dev/icons/"
+      class="underline-offset-4 [-webkit-tap-highlight-color:transparent] focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5 max-sm:mt-4 border-0 bg-transparent py-1.5 px-0 text-xs text-sea font-semibold no-underline inline-flex items-center gap-3.75 [&:hover]:underline"
+      target="_blank"
+      rel="noreferrer"
+    >
+      La colección de Lucide <Icon name="arrow-up-right" />
+    </a>
   </div>
-  <div class="map-rules icon-rules"><div><span class="eyebrow">UN TRAZO COMPARTIDO</span><p>1 px de grosor en iconos de 12 y 16 px; 1,5 px en el resto de tamaños. Sin rellenos, con una única familia para categorías, enlaces y controles.</p></div><div><span class="eyebrow">A CADA ESCALA</span><p>12 px para detalles compactos, 16 px junto al texto, 20 px en controles y 24–32 px para categorías y piezas destacadas.</p></div><div><span class="eyebrow">SIEMPRE CON SENTIDO</span><p>El icono acompaña al texto. Los botones sin texto necesitan un nombre accesible y un área de al menos 44 × 44 px.</p></div></div>
+  <p class="m-0 max-w-155 text-md text-muted mt-4.25 mr-0 mb-6.75 ml-0 leading-copy max-sm:mt-3">
+    Iconos sencillos para orientarse por la ciudad. Una familia de líneas limpias, con el mismo peso y los
+    colores de nuestra paleta.
+  </p>
+  <div class="grid grid-cols-6 border border-line rounded-md overflow-hidden gap-0 bg-paper max-lg:grid-cols-4 max-sm:grid-cols-3 max-xs:grid-cols-2">
+    {samples.map((sample) => (
+      <div class="bg-paper pt-7.5 pr-3 pb-5.75 pl-3 text-center [&_h3]:not-italic [&_h3]:font-medium [&_h3]:text-label [&_h3]:leading-normal [&_h3]:font-body [&_h3]:tracking-normal [&_h3]:mt-4.25 [&_h3]:mr-0 [&_h3]:mb-1 [&_h3]:ml-0 [&_>_span]:block [&_>_span]:text-muted [&_>_span]:text-meta max-sm:px-2 max-sm:[&_h3]:text-xs max-sm:[&_>_span]:text-caption">
+        <Icon name={sample.icon} size={32} class={tones[sample.tone]} />
+        <h3 class="m-0 font-display font-[450] leading-heading tracking-heading text-h3">{sample.label}</h3>
+        <span>{sample.source}</span>
+      </div>
+    ))}
+  </div>
+  <div class="grid grid-cols-[1fr_auto] gap-7 py-6.5 px-0 items-start [&_[data-eyebrow]]:text-muted [&_[data-eyebrow]]:text-caption max-lg:grid-cols-1">
+    <div>
+      <p class="m-0 not-italic font-medium text-xs leading-normal font-body tracking-eyebrow" data-eyebrow>
+        EN CONTEXTO
+      </p>
+      <div class="flex flex-wrap gap-3.5 items-center mt-5 [&_a:not(:first-child)]:inline-flex [&_a:not(:first-child)]:items-center [&_a:not(:first-child)]:gap-2 [&_a:not(:first-child)]:no-underline [&_a:not(:first-child)]:min-h-10 [&_a:not(:first-child)]:text-meta [&_a:not(:first-child):hover]:underline">
+        <a
+          href="#mapas"
+          class="underline-offset-4 [-webkit-tap-highlight-color:transparent] focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5 min-h-control inline-flex items-center justify-center gap-2 py-2.75 px-4 border rounded-sm not-italic font-medium text-sm leading-[1.25rem] font-body tracking-normal text-center no-underline [&:disabled]:text-muted [&:disabled]:bg-soft [&:disabled]:border-line bg-sea text-on-accent border-sea [&:hover]:bg-sea-dark"
+        >
+          <Icon name="map-pin" /> Ver en el mapa
+        </a>
+        <a
+          href="#componentes"
+          class="underline underline-offset-4 [-webkit-tap-highlight-color:transparent] focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5 inline-block rounded-tag px-2.5 py-1.25 text-caption leading-normal max-sm:text-meta text-clay bg-clay-light"
+        >
+          <Icon name="utensils" /> Sabores de aquí
+        </a>
+        <a
+          href="#mapas"
+          class="underline underline-offset-4 [-webkit-tap-highlight-color:transparent] focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5 inline-block rounded-tag px-2.5 py-1.25 text-caption leading-normal max-sm:text-meta text-moss bg-moss-light"
+        >
+          <Icon name="footprints" /> Un paseo al aire libre
+        </a>
+      </div>
+    </div>
+    <div class="[&_>_div]:flex [&_>_div]:gap-6 [&_>_div]:mt-5 [&_>_div_>_span]:flex [&_>_div_>_span]:flex-col [&_>_div_>_span]:items-center [&_>_div_>_span]:gap-3 [&_>_div_>_span]:justify-end [&_>_div_>_span]:text-sea [&_small]:text-muted [&_small]:text-meta">
+      <p class="m-0 not-italic font-medium text-xs leading-normal font-body tracking-eyebrow" data-eyebrow>
+        LA ESCALA
+      </p>
+      <div>
+        {([12, 16, 20, 24, 32] as const).map((size) => (
+          <span>
+            <Icon name="anchor" size={size} />
+            <small>{size} px</small>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-6 mt-6.25 [&_[data-eyebrow]]:text-meta [&_[data-eyebrow]]:text-sea [&_p]:text-sm [&_p]:text-muted [&_p]:mt-2 max-md:gap-3.75 max-sm:grid-cols-1 max-sm:gap-5">
+    <div>
+      <span class="not-italic font-medium text-xs leading-normal font-body tracking-eyebrow" data-eyebrow>
+        UN TRAZO COMPARTIDO
+      </span>
+      <p class="m-0">
+        1 px de grosor en iconos de 12 y 16 px; 1,5 px en el resto de tamaños. Sin rellenos, con una única
+        familia para categorías, enlaces y controles.
+      </p>
+    </div>
+    <div>
+      <span class="not-italic font-medium text-xs leading-normal font-body tracking-eyebrow" data-eyebrow>
+        A CADA ESCALA
+      </span>
+      <p class="m-0">
+        12 px para detalles compactos, 16 px junto al texto, 20 px en controles y 24–32 px para categorías y
+        piezas destacadas.
+      </p>
+    </div>
+    <div>
+      <span class="not-italic font-medium text-xs leading-normal font-body tracking-eyebrow" data-eyebrow>
+        SIEMPRE CON SENTIDO
+      </span>
+      <p class="m-0">
+        El icono acompaña al texto. Los botones sin texto necesitan un nombre accesible y un área de al menos
+        44 × 44 px.
+      </p>
+    </div>
+  </div>
 </section>

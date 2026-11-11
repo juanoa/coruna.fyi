@@ -1,16 +1,42 @@
 ---
 import {
-  Anchor, ArrowDownRight, ArrowUp, ArrowUpRight, BookOpen, BuildingComplex,
-  Compass, Copy, Fish, Footprints, Landmark, MapPin, Plus, Sailboat,
-  TreePine, Utensils, WavesHorizontal,
+  Anchor,
+  ArrowDownRight,
+  ArrowUp,
+  ArrowUpRight,
+  BookOpen,
+  BuildingComplex,
+  Compass,
+  Copy,
+  Fish,
+  Footprints,
+  Landmark,
+  MapPin,
+  Plus,
+  Sailboat,
+  TreePine,
+  Utensils,
+  WavesHorizontal,
 } from '@lucide/astro';
 
 const icons = {
-  anchor: Anchor, 'arrow-down-right': ArrowDownRight, 'arrow-up': ArrowUp,
-  'arrow-up-right': ArrowUpRight, 'book-open': BookOpen, building: BuildingComplex,
-  compass: Compass, copy: Copy, fish: Fish, footprints: Footprints,
-  landmark: Landmark, 'map-pin': MapPin, plus: Plus, sailboat: Sailboat,
-  'tree-pine': TreePine, utensils: Utensils, waves: WavesHorizontal,
+  anchor: Anchor,
+  'arrow-down-right': ArrowDownRight,
+  'arrow-up': ArrowUp,
+  'arrow-up-right': ArrowUpRight,
+  'book-open': BookOpen,
+  building: BuildingComplex,
+  compass: Compass,
+  copy: Copy,
+  fish: Fish,
+  footprints: Footprints,
+  landmark: Landmark,
+  'map-pin': MapPin,
+  plus: Plus,
+  sailboat: Sailboat,
+  'tree-pine': TreePine,
+  utensils: Utensils,
+  waves: WavesHorizontal,
 };
 
 export interface Props {
@@ -22,4 +48,12 @@ export interface Props {
 const { name, size = 16, class: className } = Astro.props;
 const Glyph = icons[name];
 ---
-<Glyph size={size} stroke-width={size <= 16 ? 1 : 1.5} nonScalingStroke class:list={['icon', className]} aria-hidden="true" focusable="false" />
+
+<Glyph
+  size={size}
+  stroke-width={size <= 16 ? 1 : 1.5}
+  nonScalingStroke
+  class:list={['inline-block shrink-0 align-middle', className]}
+  aria-hidden="true"
+  focusable="false"
+/>

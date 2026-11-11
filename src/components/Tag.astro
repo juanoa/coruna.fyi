@@ -5,6 +5,22 @@ interface Props {
   lang?: string;
 }
 
+const tones = {
+  sea: 'text-sea bg-sea-light',
+  clay: 'text-clay bg-clay-light',
+  moss: 'text-moss bg-moss-light',
+  neutral: 'bg-soft',
+};
 const { tone = 'neutral', class: className, lang } = Astro.props;
 ---
-<span class:list={['tag', `${tone}-tag`, className]} lang={lang}><slot /></span>
+
+<span
+  class:list={[
+    'inline-block rounded-tag px-2.5 py-1.25 text-caption leading-normal max-sm:text-meta',
+    tones[tone],
+    className,
+  ]}
+  lang={lang}
+>
+  <slot />
+</span>

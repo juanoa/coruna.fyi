@@ -1,4 +1,4 @@
-# coruna.info
+# coruna.fyi
 
 Una guía editorial de A Coruña. Primera entrega: sistema de diseño vivo en `/ds/`.
 

@@ -2,14 +2,18 @@
 import '@fontsource-variable/montserrat';
 import '@fontsource-variable/bitter';
 import '@fontsource-variable/bitter/wght-italic.css';
-import '../styles/tokens.css';
 import '../styles/global.css';
 import darkStyles from '../styles/dark.css?url';
-interface Props { title: string; description: string; themePreview?: boolean }
+interface Props {
+  title: string;
+  description: string;
+  themePreview?: boolean;
+}
 const { title, description, themePreview = false } = Astro.props;
 ---
+
 <!doctype html>
-<html lang="es">
+<html lang="es" class="scroll-pt-8 scheme-light max-md:scroll-pt-45">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,7 +28,7 @@ const { title, description, themePreview = false } = Astro.props;
         if (choice === 'light' || choice === 'dark') {
           document.documentElement.dataset.theme = choice;
           document.getElementById('dark-theme-styles').media = choice === 'dark' ? 'all' : 'not all';
-          document.querySelectorAll('meta[data-scheme]').forEach(meta => {
+          document.querySelectorAll('meta[data-scheme]').forEach((meta) => {
             meta.media = meta.dataset.scheme === choice ? 'all' : 'not all';
           });
         }
@@ -33,5 +37,7 @@ const { title, description, themePreview = false } = Astro.props;
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
   </head>
-  <body><slot /></body>
+  <body class="m-0 bg-paper text-ink font-body text-base font-normal leading-body antialiased selection:bg-sea selection:text-paper">
+    <slot />
+  </body>
 </html>

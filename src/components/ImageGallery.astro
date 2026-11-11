@@ -1,41 +1,57 @@
 ---
 import images from '../data/gallery-images.json';
 ---
-<section class="masonry-demo" aria-labelledby="gallery-title">
-  <div class="gallery-heading">
-    <h3 id="gallery-title">Galería de imágenes</h3>
-    <p>Masonry con 9 fotografías. Cada imagen conserva su proporción, sin recortes.</p>
+
+<section class="mt-12 max-sm:mt-9" aria-labelledby="gallery-title">
+  <div class="mb-6">
+    <h3 id="gallery-title" class="font-display text-3xl font-[450] leading-heading tracking-heading">
+      Galería de imágenes
+    </h3>
+    <p class="mt-3 text-label text-muted max-sm:text-sm">
+      Masonry con 9 fotografías. Cada imagen conserva su proporción, sin recortes.
+    </p>
   </div>
-  <div class="masonry-grid">
-    {images.map(image => (
-      <figure>
-        <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+  <div class="columns-3 gap-x-3 max-lg:columns-2 max-sm:columns-1">
+    {images.map((image) => (
+      <figure class="mb-3 break-inside-avoid">
+        <img
+          class="block h-auto w-full rounded-photo bg-soft object-cover"
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+        />
       </figure>
     ))}
   </div>
-  <details class="credits">
-    <summary>Créditos de las fotografías de la galería</summary>
-    <ul>{images.map(image => <li><a href={image.source} target="_blank" rel="noreferrer">{image.caption}</a> · {image.author} · <a href={image.licenseUrl} target="_blank" rel="noreferrer">{image.license}</a></li>)}</ul>
+  <details class="mt-1 text-caption text-muted max-sm:text-xs">
+    <summary class="cursor-pointer touch-manipulation focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5">
+      Créditos de las fotografías de la galería
+    </summary>
+    <ul class="mt-3 list-disc pl-4.5 [&_li+li]:mt-1.5">
+      {images.map((image) => (
+        <li>
+          <a
+            class="underline underline-offset-4 focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5"
+            href={image.source}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {image.caption}
+          </a>{' '}
+          · {image.author} ·{' '}
+          <a
+            class="underline underline-offset-4 focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5"
+            href={image.licenseUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {image.license}
+          </a>
+        </li>
+      ))}
+    </ul>
   </details>
 </section>
-
-<style>
-  .masonry-demo { margin-top: 48px; }
-  .gallery-heading { margin-bottom: 24px; }
-  .gallery-heading h3 { font-size: 28px; }
-  .gallery-heading p { color: var(--color-muted); font-size: 12px; margin-top: 12px; }
-  .masonry-grid { columns: 3; column-gap: 12px; }
-  .masonry-grid figure { break-inside: avoid; margin: 0 0 12px; }
-  .masonry-grid img { height: auto; border-radius: 6px; background: var(--color-soft); }
-  .credits { margin-top: 4px; }
-  .credits ul { padding-left: 18px; margin: 12px 0 0; }
-  .credits li + li { margin-top: 6px; }
-  @media (max-width: 1020px) {
-    .masonry-grid { columns: 2; }
-  }
-  @media (max-width: 540px) {
-    .masonry-demo { margin-top: 36px; }
-    .gallery-heading p { font-size: 13px; }
-    .masonry-grid { columns: 1; }
-  }
-</style>

@@ -25,17 +25,28 @@ export default function CopyFeedback() {
 
   const Glyph = copied ? Check : Copy;
   return (
-    <span ref={container} className="copy-feedback" aria-hidden="true" data-copy-state={copied ? 'copied' : 'idle'}>
+    <span
+      ref={container}
+      className="inline-grid h-4 w-4 align-middle"
+      aria-hidden="true"
+      data-copy-state={copied ? 'copied' : 'idle'}
+    >
       <AnimatePresence initial={false} mode="wait">
         <motion.span
           key={copied ? 'check' : 'copy'}
-          className="copy-feedback-glyph"
+          className="inline-flex [grid-area:1/1]"
           initial={{ opacity: 0, y: reduceMotion ? 0 : 3, scale: reduceMotion ? 1 : 0.85 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: reduceMotion ? 0 : -3, scale: reduceMotion ? 1 : 0.85 }}
           transition={{ duration: 0.12, ease: 'easeOut' }}
         >
-          <Glyph className="icon" size={16} strokeWidth={1} nonScalingStroke focusable="false" />
+          <Glyph
+            className="inline-block shrink-0 align-middle"
+            size={16}
+            strokeWidth={1}
+            nonScalingStroke
+            focusable="false"
+          />
         </motion.span>
       </AnimatePresence>
     </span>

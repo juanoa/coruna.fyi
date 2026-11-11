@@ -1,7 +1,23 @@
-<div class="theme-controls">
-  <div class="segmented-control theme-options" role="group" lang="en" aria-label="Appearance">
-    <button type="button" data-theme-choice="system" aria-pressed="true">System</button>
-    <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
-    <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+---
+const options = ['system', 'light', 'dark'] as const;
+---
+
+<div class="mt-6 max-md:col-span-full max-md:row-2 max-md:mt-3 max-md:flex max-md:justify-end">
+  <div
+    class="grid w-full grid-cols-3 gap-0.75 rounded-control bg-soft p-0.5 max-md:shrink-0"
+    role="group"
+    lang="en"
+    aria-label="Appearance"
+  >
+    {options.map((choice) => (
+      <button
+        class="min-h-6.5 min-w-0 cursor-pointer touch-manipulation rounded-tag border-0 bg-transparent px-1 py-1.25 text-caption leading-4 text-muted [-webkit-tap-highlight-color:transparent] aria-pressed:bg-sea aria-pressed:text-on-accent hover:not-aria-pressed:bg-surface hover:not-aria-pressed:text-ink focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-1 max-sm:text-meta"
+        type="button"
+        data-theme-choice={choice}
+        aria-pressed={choice === 'system'}
+      >
+        {choice[0].toUpperCase() + choice.slice(1)}
+      </button>
+    ))}
   </div>
 </div>

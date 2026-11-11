@@ -33,10 +33,10 @@ const supportColors = [
   { name: 'Monte suave', token: 'moss-light', hex: '#E7ECDF', use: 'Etiquetas de naturaleza' },
 ];
 ---
-<Layout title="Sistema de diseño — coruna.info" description="El punto de partida de coruna.info. Un sistema de diseño editorial, atlántico y cercano para contar A Coruña." themePreview>
+<Layout title="Sistema de diseño — coruna.fyi" description="El punto de partida de coruna.fyi. Un sistema de diseño editorial, atlántico y cercano para contar A Coruña." themePreview>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <aside class="sidebar">
-    <a class="site-name" href="/ds/" aria-label="coruna.info, inicio del sistema de diseño">coruna<span>.info</span></a>
+    <a class="site-name" href="/ds/" aria-label="coruna.fyi, inicio del sistema de diseño">coruna<span>.fyi</span></a>
     <div class="sidebar-intro">Sistema de diseño <span class="version">v0.1</span></div>
     <ThemeControls />
     <nav aria-label="Secciones del sistema de diseño">{sections.map(([id, label], i) => <a href={`#${id}`} class:list={['nav-item', { active: i === 0 }]} aria-current={i === 0 ? 'location' : undefined}><span class="nav-number">{String(i + 1).padStart(2, '0')}</span>{label}</a>)}</nav>
@@ -102,7 +102,7 @@ const supportColors = [
         <div class="structure-grid"><div class="component-box"><p class="eyebrow">RITMO BASE DE 4 PX</p><div class="spacing-scale">{[4, 8, 12, 16, 24, 32, 48, 64].map(size => <div><span style={`height: ${size}px`}></span><small>{size}</small></div>)}</div><p class="component-note">8–16 px dentro de una pieza. 24–32 px entre piezas. 64–96 px para cambiar de tema.</p></div><div class="component-box"><p class="eyebrow">FORMAS</p><div class="radius-samples"><div style="border-radius:4px">4 px</div><div style="border-radius:8px">8 px</div><div style="border-radius:16px">16 px</div><div style="border-radius:999px">Pill</div></div><p class="component-note">Bordes sutiles, superficies planas y esquinas suaves. Las formas especiales se reservan para imágenes protagonistas.</p></div></div>
         <div class="reading-note"><span class="eyebrow">PENSADO PARA LEER, EN CUALQUIER PANTALLA</span><p>Una columna de hasta 65 caracteres para artículos. Rejillas de tres, dos o una tarjeta según el espacio. Texto que crece con la pantalla y controles que siempre se pueden alcanzar.</p></div>
       </section>
-      <footer class="page-footer"><div><a class="site-name" href="#fundamentos">coruna<span>.info</span></a><p>Una guía que empieza por tener una voz propia.</p></div><div><a href="#fundamentos">Volver al principio <Icon name="arrow-up" /></a></div></footer>
+      <footer class="page-footer"><div><a class="site-name" href="#fundamentos">coruna<span>.fyi</span></a><p>Una guía que empieza por tener una voz propia.</p></div><div><a href="#fundamentos">Volver al principio <Icon name="arrow-up" /></a></div></footer>
     </main>
   </div>
   <div class="toast" role="status" aria-live="polite"></div>

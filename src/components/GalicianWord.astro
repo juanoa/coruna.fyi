@@ -1,9 +1,37 @@
 ---
-interface Props { word: string; meaning: string; light?: boolean }
-const { word, meaning, light = false } = Astro.props;
+interface Props {
+  word: string;
+  meaning: string;
+  light?: boolean;
+}
+const { word, meaning, light: _light = false } = Astro.props;
 const definitionId = `word-${crypto.randomUUID()}`;
 ---
-<span class:list={['galician-word', { 'on-dark': light }]}>
-  <button class="word-trigger" aria-label={`${word}, ver significado en castellano`} aria-expanded="false" aria-controls={definitionId}><span lang="gl">{word}</span><sup aria-hidden="true">gl</sup></button>
-  <span class="word-definition" id={definitionId} hidden><span class="eyebrow">EN CASTELLANO</span><span>{meaning}</span></span>
+
+<span class="relative inline" data-galician-word>
+  <button
+    class="inline min-h-9 cursor-pointer touch-manipulation border-0 bg-transparent p-0 text-clay [font-family:inherit] text-[length:inherit] italic leading-[inherit] underline decoration-clay/50 decoration-1 underline-offset-5 [-webkit-tap-highlight-color:transparent] focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-sea focus-visible:outline-offset-5"
+    data-word-trigger
+    aria-label={`${word}, ver significado en castellano`}
+    aria-expanded="false"
+    aria-controls={definitionId}
+  >
+    <span lang="gl">{word}</span>
+    <sup
+      class="static ml-0.75 align-super font-body text-2xs font-medium not-italic leading-[normal] no-underline"
+      aria-hidden="true"
+    >
+      gl
+    </sup>
+  </button>
+  <span
+    class="absolute bottom-[calc(100%+12px)] left-0 z-5 flex w-56.25 max-w-[72vw] flex-col gap-2 rounded-control bg-popover p-4 font-body text-label font-normal not-italic leading-[1.6] text-popover-ink shadow-popover max-sm:w-50 data-[align=end]:right-0 data-[align=end]:left-auto [&[hidden]]:hidden"
+    id={definitionId}
+    hidden
+  >
+    <span class="font-body text-3xs font-medium leading-normal tracking-eyebrow text-sand">
+      EN CASTELLANO
+    </span>
+    <span>{meaning}</span>
+  </span>
 </span>

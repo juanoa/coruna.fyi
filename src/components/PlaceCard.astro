@@ -3,16 +3,39 @@ import { iconography } from '../data/iconography';
 import Tag from './Tag.astro';
 
 interface Props {
-  image: string; alt: string; category: keyof typeof iconography; categoryLabel?: string;
-  title: string; description: string; featured?: boolean;
+  image: string;
+  alt: string;
+  category: keyof typeof iconography;
+  categoryLabel?: string;
+  title: string;
+  description: string;
+  featured?: boolean;
 }
-const { image, alt, category, categoryLabel, title, description, featured = false } = Astro.props;
+const { image, alt, category, categoryLabel, title, description, featured: _featured = false } = Astro.props;
 const categoryStyle = iconography[category];
 ---
-<article class:list={['place-card', { featured }]}>
-  <div class="card-image"><img src={image} alt={alt} width="720" height="480" loading="lazy" /><Tag class="image-tag" tone={categoryStyle.tone}>{categoryLabel ?? categoryStyle.label}</Tag></div>
-  <div class="card-body">
-    <h3>{title}</h3>
-    <p>{description}</p>
+
+<article class="group/card flex flex-col overflow-hidden rounded-card border border-line bg-surface group-data-[layout=list]/cards:grid group-data-[layout=list]/cards:grid-cols-[220px_1fr] max-sm:group-data-[layout=list]/cards:grid-cols-[100px_1fr] sm:max-lg:group-data-[layout=grid]/cards:last:col-span-full sm:max-lg:group-data-[layout=grid]/cards:last:grid sm:max-lg:group-data-[layout=grid]/cards:last:grid-cols-2 sm:max-lg:group-data-[layout=grid]/cards:last:[&_img]:h-full">
+  <div class="relative">
+    <img
+      class="block aspect-[3/2] h-auto w-full object-cover group-data-[layout=list]/cards:aspect-[4/3] group-data-[layout=list]/cards:h-full"
+      src={image}
+      alt={alt}
+      width="720"
+      height="480"
+      loading="lazy"
+    />
+    <Tag
+      class="absolute bottom-3 left-3.5 max-sm:group-data-[layout=list]/cards:bottom-2 max-sm:group-data-[layout=list]/cards:left-1.25"
+      tone={categoryStyle.tone}
+    >
+      {categoryLabel ?? categoryStyle.label}
+    </Tag>
+  </div>
+  <div class="flex flex-1 flex-col pt-5.25 pr-4.5 pb-5.5 pl-4.5 max-xl:px-3.5 max-sm:p-5.5 max-sm:group-data-[layout=list]/cards:p-4">
+    <h3 class="mb-2.75 font-display text-[25px] font-[450] leading-[1.15] tracking-heading 2xl:text-[29px] max-xl:text-[23px] max-md:text-2xl max-sm:text-[31px] max-sm:group-data-[layout=list]/cards:text-2xl">
+      {title}
+    </h3>
+    <p class="text-sm leading-copy text-muted max-sm:group-data-[layout=list]/cards:text-xs">{description}</p>
   </div>
 </article>
