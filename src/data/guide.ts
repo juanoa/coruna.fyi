@@ -2,7 +2,7 @@ import { getCollection, getEntry } from 'astro:content';
 import type { SearchPage } from './search';
 
 export async function getGuideEntries() {
-  return (await getCollection('guide')).filter(({ data }) => !data.draft).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+  return (await getCollection('guide')).filter(({ data }) => !data.draft).sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export async function getGuideEntry(id: string) {
@@ -23,7 +23,7 @@ export async function getSearchPages(): Promise<SearchPage[]> {
       title: data.title,
       href: getGuideHref(id),
       group: 'Apuntes' as const,
-      keywords: [data.title, data.categoryLabel, data.description],
+      keywords: [data.title, data.description],
     })),
   ];
 }
