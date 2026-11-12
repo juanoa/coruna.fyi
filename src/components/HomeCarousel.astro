@@ -1,0 +1,142 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { Pause, Play } from '@lucide/astro';
+import galleryImages from '../data/gallery-images.json';
+
+const photos = import.meta.glob<{ default: ImageMetadata }>('../../public/images/*.jpg', { eager: true });
+const images = galleryImages.filter((image) => !['San Xurxo', 'Xardín de San Carlos'].includes(image.caption));
+const focus = 'focus-visible:outline-2 focus-visible:outline-sea focus-visible:outline-offset-4';
+---
+
+<home-carousel class="group/carousel relative left-1/2 mb-10 block w-[calc(100vw-2rem)] max-w-4xl -translate-x-1/2 sm:mb-14">
+  <div class="relative overflow-hidden" role="img" aria-label="Un paseo en imágenes por Coruña: la Torre, Riazor, el pulpo, María Pita, A Mariña, los menhires y el monte de San Pedro.">
+    <div class="pointer-events-none flex aspect-4/1 items-center sm:aspect-20/3" aria-hidden="true">
+      {images.map((image) => (
+        <div data-carousel-card class="w-1/3 shrink-0 px-1.5 first:scale-75 first:opacity-40 max-sm:[&:nth-child(3)]:scale-75 max-sm:[&:nth-child(3)]:opacity-40 max-sm:[&:nth-child(n+4)]:hidden sm:w-1/5 sm:px-2 sm:[&:nth-child(5)]:scale-75 sm:[&:nth-child(5)]:opacity-40 sm:[&:nth-child(n+6)]:hidden group-data-[animated]/carousel:absolute group-data-[animated]/carousel:left-0 group-data-[animated]/carousel:block group-data-[animated]/carousel:scale-100 group-data-[animated]/carousel:opacity-0">
+          <Image
+            src={photos[`../../public${image.src}`].default}
+            alt=""
+            width={360}
+            height={270}
+            widths={[180, 360]}
+            sizes="(min-width: 896px) 180px, (min-width: 541px) 20vw, 33vw"
+            class="aspect-4/3 w-full rounded-lg bg-soft object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="mx-auto mt-2 flex max-w-shell items-start justify-between gap-4 px-2 text-sm text-muted sm:px-4">
+    <details class="min-w-0 flex-1">
+      <summary class:list={['w-fit cursor-pointer py-3 hover:text-sea', focus]}>Créditos de las fotos</summary>
+      <ul class="space-y-2 pb-3 text-xs leading-body">
+        {images.map((image) => (
+          <li>
+            <a class:list={['underline decoration-line underline-offset-4 hover:text-sea', focus]} href={image.source}>{image.caption}</a>
+            {' · '}{image.author}{' · '}
+            <a class:list={['underline decoration-line underline-offset-4 hover:text-sea', focus]} href={image.licenseUrl}>{image.license}</a>
+            {' · Recorte para el carrusel.'}
+          </li>
+        ))}
+      </ul>
+    </details>
+    <button type="button" data-carousel-toggle aria-label="Pausar carrusel" aria-pressed="false" class:list={['hidden min-h-control items-center gap-2 rounded-control px-2 hover:text-sea group-data-[animated]/carousel:flex motion-reduce:!hidden', focus]}>
+      <Pause data-pause-icon size={14} aria-hidden="true" />
+      <Play data-play-icon size={14} aria-hidden="true" class="hidden" />
+      <span data-carousel-label>Pausar</span>
+    </button>
+  </div>
+</home-carousel>
+
+<script>
+  class HomeCarousel extends HTMLElement {
+    private animations: Animation[] = [];
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      const cards = Array.from(this.querySelectorAll<HTMLElement>('[data-carousel-card]'));
+      const button = this.querySelector<HTMLButtonElement>('[data-carousel-toggle]')!;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const wideScreen = window.matchMedia('(min-width: 541px)');
+      const stepDuration = 5000;
+      const duration = cards.length * stepDuration;
+      let paused = false;
+      let visible = true;
+
+      const syncPlayback = () => {
+        this.animations.forEach((animation) => {
+          if (paused || !visible || document.hidden) animation.pause();
+          else animation.play();
+        });
+      };
+
+      const setup = () => {
+        const previousTime = Number(this.animations[0]?.currentTime ?? stepDuration);
+        this.animations.forEach((animation) => animation.cancel());
+        this.animations = [];
+        this.toggleAttribute('data-animated', !reducedMotion.matches);
+        if (reducedMotion.matches) return;
+
+        const slots = wideScreen.matches ? 5 : 3;
+        const frames = Array.from({ length: cards.length + 1 }, (_, index) => {
+          const position = index - 1;
+          const outside = position < 0 || position >= slots;
+          const edge = position === 0 || position === slots - 1;
+          return {
+            offset: index / cards.length,
+            transform: `translateX(${position * 100}%) scale(${outside ? 0.55 : edge ? 0.72 : 1})`,
+            opacity: outside ? 0 : edge ? 0.35 : 1,
+          };
+        });
+
+        this.animations = cards.map((card, index) => {
+          const animation = card.animate(frames, { duration, iterations: Infinity, easing: 'linear' });
+          animation.currentTime = (previousTime + index * stepDuration) % duration;
+          return animation;
+        });
+        syncPlayback();
+      };
+
+      const togglePlayback = () => {
+        paused = !paused;
+        button.setAttribute('aria-pressed', String(paused));
+        button.setAttribute('aria-label', paused ? 'Reanudar carrusel' : 'Pausar carrusel');
+        this.querySelector('[data-carousel-label]')!.textContent = paused ? 'Reanudar' : 'Pausar';
+        this.querySelector('[data-pause-icon]')!.classList.toggle('hidden', paused);
+        this.querySelector('[data-play-icon]')!.classList.toggle('hidden', !paused);
+        syncPlayback();
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncPlayback();
+      });
+      observer.observe(this);
+      button.addEventListener('click', togglePlayback);
+      reducedMotion.addEventListener('change', setup);
+      wideScreen.addEventListener('change', setup);
+      document.addEventListener('visibilitychange', syncPlayback);
+      setup();
+
+      this.cleanup = () => {
+        observer.disconnect();
+        button.removeEventListener('click', togglePlayback);
+        reducedMotion.removeEventListener('change', setup);
+        wideScreen.removeEventListener('change', setup);
+        document.removeEventListener('visibilitychange', syncPlayback);
+        this.animations.forEach((animation) => animation.cancel());
+        this.animations = [];
+        this.removeAttribute('data-animated');
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get('home-carousel')) customElements.define('home-carousel', HomeCarousel);
+</script>

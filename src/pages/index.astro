@@ -1,11 +1,13 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
+import HomeCarousel from '../components/HomeCarousel.astro';
 import { getGuideEntry, getGuideHref } from '../data/guide';
 const entry = await getGuideEntry('obelisco-y-calle-real');
 ---
 
 <HomeLayout>
+  <HomeCarousel />
   <article class="prose max-w-none">
     <section>
       <p>Llegué a Coruña hace 5 años. Era la primera vez que me mudaba de verdad, que dejaba todo atrás y me tocaba rehacer mi vida en nuevo sitio. Mi flechazo con la ciudad fue instantáneo. Poco tiempo tardé en darme cuenta de que me quería quedar aquí.</p>

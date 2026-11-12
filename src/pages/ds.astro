@@ -1,6 +1,7 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
+import HomeCarousel from '../components/HomeCarousel.astro';
 import { getGuideEntry, getGuideHref } from '../data/guide';
 const entry = await getGuideEntry('obelisco-y-calle-real');
 const colors = [
@@ -23,6 +24,7 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
     <a class={link} href="#tipografia">Tipografía</a>
     <a class={link} href="#color">Color</a>
     <a class={link} href="#enlaces">Enlaces y listas</a>
+    <a class={link} href="#carrusel">Carrusel de portada</a>
     <a class={link} href="#voz">Contenido</a>
   </nav>
   <div class="text-base leading-copy text-muted">
@@ -61,11 +63,18 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
       <p>Lucide sigue siendo la biblioteca de iconos. La flecha de 16 px aparece al pasar el cursor o enfocar con el teclado, y permanece visible en pantallas táctiles. Las miniaturas y las flechas son decorativas para los lectores de pantalla.</p>
       <p>El buscador es secundario. Se abre desde «Buscar» o con ⌘ K / Ctrl K, permite navegar con el teclado y devuelve el foco al cerrarse.</p>
     </section>
+    <section id="carrusel" class={section}>
+      <h2 class={heading}>Un paseo en imágenes</h2>
+      <p>La portada abre con un carrusel de fotografías, entre el logotipo y el relato. Es la única pieza que desborda la columna: alcanza 896 px, manteniendo al menos 16 px de margen en móvil. Las fotos usan proporción 4:3 y esquinas <code class="text-md text-ink">rounded-lg</code>.</p>
+      <p>El bucle avanza de izquierda a derecha, una posición cada cinco segundos. En escritorio hay tres imágenes centrales a tamaño y opacidad completos, y dos laterales al 72 % de tamaño y al 35 % de opacidad. En móvil se muestra una foto central y dos laterales. La entrada y la salida se desvanecen fuera de los extremos.</p>
+      <p>El botón permite pausar y reanudar sin saltos. El movimiento se detiene fuera de pantalla y con la pestaña oculta. Con movimiento reducido o sin JavaScript se presenta una fila estática. Los créditos desplegables conservan autoría, enlace de origen, licencia e indicación del recorte.</p>
+      <HomeCarousel />
+    </section>
     <section id="voz" class={section}>
       <h2 class={heading}>Una mirada personal</h2>
       <p>La voz puede decir «te recomiendo» o «para mí» sin necesidad de presentarse. Opiniones concretas, sin inventar recuerdos, costumbres ni experiencias. Cada nueva pieza necesita algo propio que contar.</p>
       <p>La colección empieza con «Obelisco y calle Real». Añadimos nuevas notas cuando haya algo que contar, sin rellenar categorías para que la web parezca completa.</p>
-      <p>Las listas usan pequeñas miniaturas para reconocer cada nota. Dentro del relato, las fotografías tienen un ancho máximo de 320 px y su crédito cuando corresponda. Sin imágenes de portada, mapas ni adornos que compitan con la lectura.</p>
+      <p>Las listas usan pequeñas miniaturas para reconocer cada nota. Dentro del relato, las fotografías tienen un ancho máximo de 320 px y su crédito cuando corresponda. El carrusel de la portada es la excepción: presenta la ciudad antes de empezar a leer. Las notas mantienen su composición sin imágenes de cabecera ni mapas.</p>
       <p>Los componentes de la versión anterior quedan fuera del sistema activo. Cualquier nuevo patrón debe documentarse aquí antes de extenderlo a la web.</p>
     </section>
   </div>
