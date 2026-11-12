@@ -1,5 +1,30 @@
 ---
-import GuideHome from '../components/GuideHome.astro';
+import HomeLayout from '../layouts/HomeLayout.astro';
+import NoteList from '../components/NoteList.astro';
+import { getGuideEntry, getGuideHref } from '../data/guide';
+const entry = await getGuideEntry('obelisco-y-calle-real');
 ---
 
-<GuideHome />
+<HomeLayout>
+  <article class="prose max-w-none">
+    <section>
+      <p>Llegué a Coruña hace 5 años. Era la primera vez que me mudaba de verdad, que dejaba todo atrás y me tocaba rehacer mi vida en nuevo sitio. Mi flechazo con la ciudad fue instantáneo. Poco tiempo tardé en darme cuenta de que me quería quedar aquí.</p>
+      <p>Hoy me gustaría compartir una forma de ver Coruña. De visitarla. La Torre de Hércules y María Pita están bien, pero una ciudad como esta no se recuerda por sus monumenos, sino por su forma de vivir.</p>
+      <p>Esta es una guía atípica. <b>Tienes un buscador en la parte superior</b> para ir directo a donde quieras, pero he diseñado esta web para que deambulés por ella, sin un fin, sin ningún objetivo. Porque esa es la mejor forma de visitar Coruña, perdiéndose.</p>
+      <p>Abajo a la derecha tienes un botón para ver las notas de cosas que hay <b>cerca de ti</b>. Úsalo cuando decidas dejarte llevar por tu intuición.</p>
+    </section>
+    <section>
+      <h2>Guía</h2>
+      <p>Lo primero que necesito es que te ubiques. ¿Dónde estás ahora mismo? Échale un ojo a Google Maps ;)</p>
+      <p>Esta guía la vamos a empezar en el Obelisco, el lugar donde la gente de aquí queda.</p>
+      <div class="not-prose">
+        <NoteList items={[{ title: entry.data.title, href: getGuideHref(entry.id), image: entry.data.image, description: entry.data.description }]} />
+      </div>
+      <p>¿Estás en otro sitio? Recuerda que puedes usar el botón de abajo a la derecha para encontrar cosas cerca tuyo.</p>
+    </section>
+    <section>
+      <h2>FAQ</h2>
+      <p><b>¿Qué pasa si llueve?</b> Coruña es una ciudad muy lluviosa, aunque no de las más lluviosas de Galicia. La posibilidad de encontrar mal tiempo (sobre todo si no es verano) es muy alta. Yo vengo del sur, donde la gente se queda en casa el día que caen cuatro gotas, pero aquí la gente sale a la calle igual. La ciudad sigue siendo la misma, asi que te recomiendo que te equipes bien y salgas a visitarla igualmente.</p>
+    </section>
+  </article>
+</HomeLayout>

@@ -1,6 +1,8 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
+import { getGuideEntry, getGuideHref } from '../data/guide';
+const entry = await getGuideEntry('obelisco-y-calle-real');
 const colors = [
   { name: 'Papel', token: 'paper', use: 'Fondo de la página.', swatch: 'bg-paper' },
   { name: 'Tinta', token: 'ink', use: 'Títulos y enlaces dentro del texto.', swatch: 'bg-ink' },
@@ -27,7 +29,7 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
     <section id="estructura" class={section}>
       <h2 class={heading}>Una sola columna</h2>
       <p>Inicio, notas y esta página comparten el mismo ancho: <code class="text-md text-ink">max-w-shell</code>, 680 px con el margen interior incluido. A cada lado dejamos 24 px en móvil y 32 px en pantallas mayores.</p>
-      <p>Una sección empieza a los 48 px de la anterior. Entre párrafos, 20 px. Todo se alinea a la izquierda; las listas sustituyen a las rejillas.</p>
+      <p>La portada y las notas usan <code class="text-md text-ink">prose</code> de Tailwind Typography. El plugin gestiona párrafos, títulos, listas y enlaces; su configuración compartida usa los tokens del proyecto. Los componentes insertados en el relato van dentro de <code class="text-md text-ink">not-prose</code> para conservar su diseño.</p>
     </section>
     <section id="tipografia" class={section}>
       <h2 class={heading}>Tipografía y logotipo</h2>
@@ -52,20 +54,17 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
     </section>
     <section id="enlaces" class={section}>
       <h2 class={heading}>Cada enlace tiene un motivo</h2>
-      <p>Los enlaces nacen dentro del relato: de la <a class={link} href="/torre-de-hercules/">Torre de Hércules</a> a <a class={link} href="/caminar-sin-rumbo/">caminar sin rumbo</a>. Dentro de los párrafos van subrayados. Todos son accesibles con teclado y funcionan también sin JavaScript.</p>
+      <p>Los enlaces nacen dentro del relato: la guía empieza en el <a class={link} href={getGuideHref(entry.id)}>Obelisco y la calle Real</a>. Dentro de los párrafos van subrayados. Todos son accesibles con teclado y funcionan también sin JavaScript.</p>
       <p>Al final de una nota, una lista breve ofrece continuaciones elegidas por su relación con el texto. Sin recomendaciones automáticas ni carruseles.</p>
-      <NoteList items={[
-        { title: 'Torre de Hércules', href: '/torre-de-hercules/', image: '/images/torre-de-hercules.webp', description: 'El faro es una excusa para acercarse.' },
-        { title: 'Caminar sin rumbo', href: '/caminar-sin-rumbo/', image: '/images/menhires.jpg', description: 'Dejar un rato del paseo sin decidir.' },
-      ]} />
-      <p>Las filas llevan una miniatura de 32 px, título de 14 px y descripción de 12 px. Dejamos 12 px entre imagen y texto, 12 px de margen interior horizontal y 10 px vertical. Cada fila tiene un borde de 1 px con el token línea al 70 % y 4 px de separación con la siguiente. Toda la fila es un enlace, sin subrayado en el título, y recibe un fondo suave al interactuar.</p>
+      <NoteList items={[{ title: entry.data.title, href: getGuideHref(entry.id), image: entry.data.image, description: entry.data.description }]} />
+      <p>Las filas llevan una miniatura de 48 px, título de 14 px y descripción de 12 px. Dejamos 12 px entre imagen y texto, 6 px entre la foto y el borde, y 12 px en el extremo derecho. Usamos <code class="text-md text-ink">rounded-card</code> (7 px) para la tarjeta y <code class="text-md text-ink">rounded-sm</code> (4 px) para la foto. Cada fila tiene un borde de 1 px con el token línea al 70 % y 4 px de separación con la siguiente. Toda la fila es un enlace, sin subrayado en el título, y recibe un fondo suave al interactuar.</p>
       <p>Lucide sigue siendo la biblioteca de iconos. La flecha de 16 px aparece al pasar el cursor o enfocar con el teclado, y permanece visible en pantallas táctiles. Las miniaturas y las flechas son decorativas para los lectores de pantalla.</p>
       <p>El buscador es secundario. Se abre desde «Buscar» o con ⌘ K / Ctrl K, permite navegar con el teclado y devuelve el foco al cerrarse.</p>
     </section>
     <section id="voz" class={section}>
       <h2 class={heading}>Una mirada personal</h2>
       <p>La voz puede decir «te recomiendo» o «para mí» sin necesidad de presentarse. Opiniones concretas, sin inventar recuerdos, costumbres ni experiencias. Cada nueva pieza necesita algo propio que contar.</p>
-      <p>Los textos de muestra quedan como borradores, fuera del inicio, del buscador y de las páginas publicadas. No hay que rellenar categorías para que la web parezca completa.</p>
+      <p>La colección empieza con «Obelisco y calle Real». Añadimos nuevas notas cuando haya algo que contar, sin rellenar categorías para que la web parezca completa.</p>
       <p>Las listas usan pequeñas miniaturas para reconocer cada nota. Dentro del relato, las fotografías tienen un ancho máximo de 320 px y su crédito cuando corresponda. Sin imágenes de portada, mapas ni adornos que compitan con la lectura.</p>
       <p>Los componentes de la versión anterior quedan fuera del sistema activo. Cualquier nuevo patrón debe documentarse aquí antes de extenderlo a la web.</p>
     </section>
