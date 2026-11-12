@@ -13,8 +13,6 @@ const guide = defineCollection({
     categoryLabel: z.string(),
     image: z.string(),
     alt: z.string(),
-    location: z.string(),
-    duration: z.string(),
     order: z.number().int().positive(),
     homeFilter: z.enum(['sea', 'dining', 'walks', 'history']).optional(),
   }),

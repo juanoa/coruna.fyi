@@ -25,7 +25,7 @@ export async function getSearchPages(): Promise<SearchPage[]> {
       title: data.title,
       href: getGuideHref(id),
       group: groups[data.section],
-      keywords: [data.title, data.categoryLabel, data.location, data.description],
+      keywords: [data.title, data.categoryLabel, data.description],
     })),
     { title: 'Sistema de diseño', href: '/ds/', group: 'General', keywords: ['ds', 'design system', 'componentes', 'tipografía', 'colores'] },
   ];
