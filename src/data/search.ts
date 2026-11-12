@@ -1,7 +1,7 @@
 export interface SearchPage {
   title: string;
   href: string;
-  group: 'General' | 'Lugares' | 'Barrios' | 'Rutas';
+  group: 'General' | 'Apuntes';
   keywords: string[];
 }
 

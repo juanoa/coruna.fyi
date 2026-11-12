@@ -9,7 +9,7 @@ function Command({ className, ...props }: React.ComponentProps<typeof CommandPri
   return <CommandPrimitive data-slot="command" className={cn('flex min-h-0 flex-col overflow-hidden [&_[hidden]]:hidden!', className)} {...props} />;
 }
 function CommandDialog({
-  title = 'Buscar páginas', description = 'Busca un lugar, barrio, ruta o página de la web.',
+  title = 'Buscar páginas', description = 'Busca entre las notas de coruña.fyi.',
   children, className, showCloseButton = true, contentProps, ...props
 }: Omit<React.ComponentProps<typeof Dialog>, 'children'> & {
   title?: string; description?: string; children: React.ReactNode; className?: string;

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Building2, Compass, FileText, Home, Landmark, Search } from 'lucide-react';
+import { ArrowUpRight, FileText, Home, Search } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { filterPage, type SearchPage } from '../data/search';
 
-const groups: SearchPage['group'][] = ['General', 'Lugares', 'Barrios', 'Rutas'];
-const groupIcons = { General: FileText, Lugares: Landmark, Barrios: Building2, Rutas: Compass };
+const groups: SearchPage['group'][] = ['General', 'Apuntes'];
+const groupIcons = { General: FileText, Apuntes: FileText };
 const keyClasses = 'inline-flex min-h-6 items-center justify-center whitespace-nowrap rounded-tag border border-line bg-paper px-1.5 py-0.5 font-body text-meta font-normal leading-none';
 
 export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] }) {
@@ -34,14 +34,14 @@ export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] 
 
   return (
     <>
-      <button ref={triggerRef} type="button" className="inline-flex min-h-control w-60 cursor-pointer items-center gap-2 rounded-control border border-line bg-surface px-2 py-1.5 font-body text-label text-muted hover:border-sea hover:text-sea focus-visible:outline-3 focus-visible:outline-sea focus-visible:outline-offset-5 max-sm:size-control max-sm:justify-center max-sm:p-0" onClick={() => changeOpen(true)} aria-label="Buscar páginas" aria-haspopup="dialog" aria-expanded={open} aria-keyshortcuts="Meta+K Control+K">
+      <button ref={triggerRef} type="button" className="inline-flex min-h-control cursor-pointer items-center gap-2 py-2 font-body text-md text-muted hover:text-sea focus-visible:outline-2 focus-visible:outline-sea focus-visible:outline-offset-4" onClick={() => changeOpen(true)} aria-label="Buscar páginas" aria-haspopup="dialog" aria-expanded={open} aria-keyshortcuts="Meta+K Control+K">
         <Search size={16} strokeWidth={1} aria-hidden="true" />
-        <span className="max-sm:hidden">Buscar en la web</span>
-        <kbd className={`${keyClasses} ml-auto max-sm:hidden`} aria-hidden="true">{shortcut}</kbd>
+        <span>Buscar</span>
+        <span className="sr-only">{shortcut}</span>
       </button>
       <CommandDialog open={open} onOpenChange={changeOpen} contentProps={{ initialFocus: inputRef, finalFocus: triggerRef }}>
         <Command label="Páginas de coruña.fyi" filter={filterPage}>
-          <CommandInput ref={inputRef} value={query} onValueChange={setQuery} placeholder="Buscar un lugar, barrio o página…" aria-label="Buscar un lugar, barrio o página" autoComplete="off" autoCorrect="off" spellCheck={false} />
+          <CommandInput ref={inputRef} value={query} onValueChange={setQuery} placeholder="Buscar una nota…" aria-label="Buscar una nota" autoComplete="off" autoCorrect="off" spellCheck={false} />
           <CommandList label="Resultados de búsqueda">
             <CommandEmpty>No se han encontrado páginas.<span>Prueba con otro nombre.</span></CommandEmpty>
             {groups.map((group) => <CommandGroup key={group} heading={group}>

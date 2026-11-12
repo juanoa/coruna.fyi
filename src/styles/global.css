@@ -31,9 +31,10 @@
   --color-video-shade: rgb(15 33 42 / 0.78);
 
   --font-*: initial;
-  --font-sans: 'Montserrat Variable', sans-serif;
-  --font-body: 'Montserrat Variable', sans-serif;
-  --font-display: 'Bitter Variable', Georgia, serif;
+  --font-sans: 'Geist Variable', sans-serif;
+  --font-body: 'Geist Variable', sans-serif;
+  --font-logo: 'Montserrat Variable', sans-serif;
+  --font-display: 'Geist Variable', sans-serif;
   --default-font-family: var(--font-body);
 
   --text-*: initial;
@@ -54,9 +55,9 @@
   --text-4xl: 2rem;
   --text-5xl: 2.25rem;
   --text-6xl: 3rem;
-  --text-h1: clamp(3.25rem, 5.2vw, 5rem);
-  --text-h2: clamp(2rem, 3vw, 2.75rem);
-  --text-h3: 1.75rem;
+  --text-h1: 1.75rem;
+  --text-h2: 1.125rem;
+  --text-h3: 1rem;
   --text-type-hero: clamp(30px, 3.4vw, 52px);
   --text-quote: clamp(30px, 3.4vw, 48px);
   --text-hero-tablet: clamp(43px, 7.4vw, 57px);
@@ -67,7 +68,7 @@
   --spacing-sidebar-xl: 210px;
   --spacing-sidebar-lg: 190px;
   --spacing-content: 1120px;
-  --spacing-shell: 1232px;
+  --spacing-shell: 680px;
   --spacing-reading: 65ch;
   --spacing-scale-mobile: clamp(13px, 3.8vw, 20px);
   --spacing-scale-gap: clamp(8px, 3vw, 19px);
@@ -98,19 +99,4 @@
   --tracking-eyebrow: 0.12em;
   --shadow-popover: 0 5px 20px #202e3620;
   --shadow-toast: 0 4px 22px #202e3626;
-}
-
-@utility prose-editorial {
-  &.prose {
-    --tw-prose-body: var(--color-muted);
-    --tw-prose-headings: var(--color-ink);
-    --tw-prose-links: var(--color-sea);
-    --tw-prose-bold: var(--color-ink);
-    --tw-prose-counters: var(--color-muted);
-    --tw-prose-bullets: var(--color-muted);
-
-    @apply max-w-reading text-reading leading-copy;
-    @apply prose-headings:font-display prose-headings:font-[450] prose-headings:leading-heading prose-headings:tracking-heading;
-    @apply prose-h2:text-h3 max-sm:prose-h2:text-[34px] prose-p:my-4;
-  }
 }

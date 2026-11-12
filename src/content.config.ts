@@ -14,6 +14,8 @@ const guide = defineCollection({
     image: z.string(),
     alt: z.string(),
     order: z.number().int().positive(),
+    draft: z.boolean().default(false),
+    related: z.array(z.string()).default([]),
     homeFilter: z.enum(['sea', 'dining', 'walks', 'history']).optional(),
   }),
 });

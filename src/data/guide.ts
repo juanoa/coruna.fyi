@@ -2,7 +2,7 @@ import { getCollection, getEntry } from 'astro:content';
 import type { SearchPage } from './search';
 
 export async function getGuideEntries() {
-  return (await getCollection('guide')).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+  return (await getCollection('guide')).filter(({ data }) => !data.draft).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
 }
 
 export async function getGuideEntry(id: string) {
@@ -15,18 +15,15 @@ export function getGuideHref(id: string) {
   return `/${id}/`;
 }
 
-const groups = { places: 'Lugares', neighborhoods: 'Barrios', routes: 'Rutas' } as const;
-
 export async function getSearchPages(): Promise<SearchPage[]> {
   const entries = await getGuideEntries();
   return [
-    { title: 'Inicio', href: '/', group: 'General', keywords: ['home', 'guía', 'A Coruña', 'coruña.fyi'] },
+    { title: 'Inicio', href: '/', group: 'General', keywords: ['home', 'notas', 'A Coruña', 'coruña.fyi'] },
     ...entries.map(({ id, data }) => ({
       title: data.title,
       href: getGuideHref(id),
-      group: groups[data.section],
+      group: 'Apuntes' as const,
       keywords: [data.title, data.categoryLabel, data.description],
     })),
-    { title: 'Sistema de diseño', href: '/ds/', group: 'General', keywords: ['ds', 'design system', 'componentes', 'tipografía', 'colores'] },
   ];
 }

@@ -1,7 +1,5 @@
 ---
-import '@fontsource-variable/montserrat';
-import '@fontsource-variable/bitter';
-import '@fontsource-variable/bitter/wght-italic.css';
+import '@fontsource-variable/geist';
 import '../styles/global.css';
 import darkStyles from '../styles/dark.css?url';
 interface Props {
@@ -13,7 +11,7 @@ const { title, description, themePreview = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-pt-8 scheme-light max-md:scroll-pt-45">
+<html lang="es" class="scroll-pt-8 scheme-light [scrollbar-gutter:stable]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
