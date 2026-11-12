@@ -40,7 +40,7 @@ const focus = 'focus-visible:outline-3 focus-visible:outline-sea focus-visible:o
       <img class="block aspect-video h-auto max-h-120 w-full rounded-photo object-cover max-sm:aspect-[4/3]" src={entry.image} alt={entry.alt} width="1280" height="720" fetchpriority="high" />
       {credit && <figcaption class="mt-3 flex justify-between gap-4 text-meta leading-[1.7] text-muted max-md:flex-col max-md:gap-2 [&_a]:underline [&_a]:underline-offset-3 [&_a:hover]:text-sea [&_a:focus-visible]:outline-3 [&_a:focus-visible]:outline-sea [&_a:focus-visible]:outline-offset-5"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}
     </figure>
-    <div class="mt-12 max-w-reading [&_h2]:mb-5 [&_h2]:font-display [&_h2]:text-h3 [&_h2]:font-[450] [&_h2]:leading-heading [&_h2]:tracking-heading [&_h2:not(:first-child)]:mt-9 [&_p]:text-reading [&_p]:leading-copy [&_p]:text-muted [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-3 [&_li]:pl-2 [&_li]:text-reading [&_li]:leading-copy [&_li]:text-muted max-sm:[&_h2]:text-[34px] max-sm:mt-8">
+    <div class="prose prose-editorial mx-auto mt-12 max-sm:mt-8">
       <Content />
     </div>
   </article>

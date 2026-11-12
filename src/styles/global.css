@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
 /* Site-wide design tokens. These generate Tailwind utilities directly. */
 @theme {
@@ -97,4 +98,19 @@
   --tracking-eyebrow: 0.12em;
   --shadow-popover: 0 5px 20px #202e3620;
   --shadow-toast: 0 4px 22px #202e3626;
+}
+
+@utility prose-editorial {
+  &.prose {
+    --tw-prose-body: var(--color-muted);
+    --tw-prose-headings: var(--color-ink);
+    --tw-prose-links: var(--color-sea);
+    --tw-prose-bold: var(--color-ink);
+    --tw-prose-counters: var(--color-muted);
+    --tw-prose-bullets: var(--color-muted);
+
+    @apply max-w-reading text-reading leading-copy;
+    @apply prose-headings:font-display prose-headings:font-[450] prose-headings:leading-heading prose-headings:tracking-heading;
+    @apply prose-h2:text-h3 max-sm:prose-h2:text-[34px] prose-p:my-4;
+  }
 }
