@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Building2, Compass, FileText, Home, Landmark, Search } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
-import { filterPage, searchPages, type SearchPage } from '../data/search';
+import { filterPage, type SearchPage } from '../data/search';
 
 const groups: SearchPage['group'][] = ['General', 'Lugares', 'Barrios', 'Rutas'];
 const groupIcons = { General: FileText, Lugares: Landmark, Barrios: Building2, Rutas: Compass };
 const keyClasses = 'inline-flex min-h-6 items-center justify-center whitespace-nowrap rounded-tag border border-line bg-paper px-1.5 py-0.5 font-body text-meta font-normal leading-none';
 
-export default function SiteSearch() {
+export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [shortcut, setShortcut] = useState('⌘ K');

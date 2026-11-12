@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { guideEntries, type HomeStory } from '../data/home';
+import { render, type CollectionEntry } from 'astro:content';
+import { getGuideEntries, getGuideHref } from '../data/guide';
 import HomeLayout from '../layouts/HomeLayout.astro';
 import Icon from '../components/Icon.astro';
 import Tag from '../components/Tag.astro';
@@ -8,16 +9,21 @@ import PlaceCard from '../components/PlaceCard.astro';
 import { iconography } from '../data/iconography';
 import gallery from '../data/gallery-images.json';
 
-export const getStaticPaths = (() => guideEntries.map((entry) => {
-  const slug = entry.href.slice(1, -1);
-  return { params: { slug }, props: { entry } };
-})) satisfies GetStaticPaths;
+export const getStaticPaths = (async () => {
+  const entries = await getGuideEntries();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
 
-interface Props { entry: HomeStory; }
-const { entry } = Astro.props;
-const section = entry.section;
-const returnHref = section === 'barrios' ? '/#barrios' : '/#descubrir';
-const related = guideEntries.filter((item) => item.href !== entry.href && item.section === (section === 'barrios' ? 'barrios' : 'lugares')).slice(0, 3);
+interface Props { entry: CollectionEntry<'guide'>; }
+const { entry: guideEntry } = Astro.props;
+const { Content } = await render(guideEntry);
+const entry = guideEntry.data;
+const isNeighborhood = entry.section === 'neighborhoods';
+const returnHref = isNeighborhood ? '/#barrios' : '/#descubrir';
+const relatedSection = isNeighborhood ? 'neighborhoods' : 'places';
+const related = (await getGuideEntries())
+  .filter((item) => item.id !== guideEntry.id && item.data.section === relatedSection)
+  .slice(0, 3);
 const credit = gallery.find((photo) => photo.src === entry.image);
 const heading = 'font-display font-[450] leading-heading tracking-heading';
 const focus = 'focus-visible:outline-3 focus-visible:outline-sea focus-visible:outline-offset-5';
@@ -35,11 +41,8 @@ const focus = 'focus-visible:outline-3 focus-visible:outline-sea focus-visible:o
       {credit && <figcaption class="mt-3 flex justify-between gap-4 text-meta leading-[1.7] text-muted max-md:flex-col max-md:gap-2 [&_a]:underline [&_a]:underline-offset-3 [&_a:hover]:text-sea [&_a:focus-visible]:outline-3 [&_a:focus-visible]:outline-sea [&_a:focus-visible]:outline-offset-5"><span>{credit.caption}</span><span>Foto: <a href={credit.source} target="_blank" rel="noreferrer">{credit.author}</a> · <a href={credit.licenseUrl} target="_blank" rel="noreferrer">{credit.license}</a> · Encuadre adaptado</span></figcaption>}
     </figure>
     <div class="mt-12 grid grid-cols-[minmax(0,1fr)_300px] items-start gap-16 max-md:grid-cols-1 max-md:gap-8 max-sm:mt-8">
-      <div class="max-w-reading [&_h2]:mb-5 [&_h2]:font-display [&_h2]:text-h3 [&_h2]:font-[450] [&_h2]:leading-heading [&_h2]:tracking-heading [&_h2:not(:first-child)]:mt-9 [&_p]:text-reading [&_p]:leading-copy [&_p]:text-muted [&_li]:mb-3 [&_li]:pl-2 [&_li]:text-reading [&_li]:leading-copy [&_li]:text-muted max-sm:[&_h2]:text-[34px]">
-        <h2>{section === 'rutas' ? 'El recorrido' : 'Información general'}</h2>
-        <p>{entry.body}</p>
-        <h2>{section === 'rutas' ? 'Paradas de la ruta' : 'Recorrido sugerido'}</h2>
-        <ol class="list-decimal pl-6">{entry.stops.map((stop) => <li>{stop}</li>)}</ol>
+      <div class="max-w-reading [&_h2]:mb-5 [&_h2]:font-display [&_h2]:text-h3 [&_h2]:font-[450] [&_h2]:leading-heading [&_h2]:tracking-heading [&_h2:not(:first-child)]:mt-9 [&_p]:text-reading [&_p]:leading-copy [&_p]:text-muted [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-3 [&_li]:pl-2 [&_li]:text-reading [&_li]:leading-copy [&_li]:text-muted max-sm:[&_h2]:text-[34px]">
+        <Content />
       </div>
       <aside class="rounded-card border border-line bg-surface p-6" aria-label="Datos de la visita">
         <h2 class:list={[heading, 'text-2xl max-sm:text-[34px]']}>La visita</h2>
@@ -50,9 +53,9 @@ const focus = 'focus-visible:outline-3 focus-visible:outline-sea focus-visible:o
   </article>
   <section class="mt-22 scroll-mt-8 max-md:mt-16" aria-labelledby="related-title">
     <div class="mb-7 flex items-end justify-between gap-8 max-md:items-start max-md:gap-6 max-sm:mb-6 max-sm:flex-col max-sm:gap-3">
-      <h2 class:list={[heading, 'text-h2 max-sm:text-[34px]']} id="related-title">{section === 'barrios' ? 'Otros barrios' : 'Otros lugares'}</h2>
-      <a class:list={['inline-flex min-h-control items-center gap-3 text-label font-medium text-sea hover:underline hover:underline-offset-5 max-sm:min-h-9', focus]} href={returnHref}>Ver {section === 'barrios' ? 'los barrios' : 'todas las propuestas'} <Icon name="arrow-up-right" /></a>
+      <h2 class:list={[heading, 'text-h2 max-sm:text-[34px]']} id="related-title">{isNeighborhood ? 'Otros barrios' : 'Otros lugares'}</h2>
+      <a class:list={['inline-flex min-h-control items-center gap-3 text-label font-medium text-sea hover:underline hover:underline-offset-5 max-sm:min-h-9', focus]} href={returnHref}>Ver {isNeighborhood ? 'los barrios' : 'todas las propuestas'} <Icon name="arrow-up-right" /></a>
     </div>
-    <div class="grid grid-cols-3 gap-6 max-md:grid-cols-2 max-md:gap-5 max-sm:grid-cols-1 max-sm:gap-6 [&_article]:h-full [&_h3]:text-h3 [&_h3]:leading-heading max-md:[&>article:last-child:nth-child(odd)]:col-span-full">{related.map((item) => <PlaceCard {...item} />)}</div>
+    <div class="grid grid-cols-3 gap-6 max-md:grid-cols-2 max-md:gap-5 max-sm:grid-cols-1 max-sm:gap-6 [&_article]:h-full [&_h3]:text-h3 [&_h3]:leading-heading max-md:[&>article:last-child:nth-child(odd)]:col-span-full">{related.map(({ id, data }) => <PlaceCard {...data} href={getGuideHref(id)} />)}</div>
   </section>
 </HomeLayout>

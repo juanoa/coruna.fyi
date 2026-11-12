@@ -11,7 +11,10 @@ import ImageGallery from '../components/ImageGallery.astro';
 import ThemeControls from '../components/ThemeControls.astro';
 import CopyFeedback from '../components/CopyFeedback';
 import SiteSearch from '../components/SiteSearch';
-import { getStory } from '../data/home';
+import { getGuideEntry, getGuideHref, getSearchPages } from '../data/guide';
+
+const searchPages = await getSearchPages();
+const riazor = await getGuideEntry('riazor-y-orzan');
 const sections = [
   ['fundamentos', 'Introducción'],
   ['color', 'Color'],
@@ -817,10 +820,10 @@ const supportColors = [
         <p class="text-sm text-muted leading-copy mt-6">La cabecera se separa del contenido mediante espacio, sin línea divisoria, tanto en la home como en las fichas. Los filtros y el encabezado «Qué ver y hacer» también se separan únicamente mediante espacio. El pie compartido se limita a la marca, «Hecho con calma. Pensado para A Coruña.» y el enlace Volver arriba. Se separa del contenido mediante espacio, sin líneas divisorias, frase central ni bloque inferior de información auxiliar.</p>
         <div class="grid grid-cols-[1fr_auto] gap-6 mt-8 items-center max-sm:grid-cols-1">
           <div><h3 class="font-display font-[450] text-2xl leading-heading tracking-heading mb-4">Buscador global</h3><p class="text-sm text-muted leading-copy">Command de shadcn, inicializado con Base UI. El botón de escritorio mide 240 px de ancho, con padding de 6 × 8 px, separación de 8 px y altura mínima de 44 px. Se abre con el botón de búsqueda, Cmd+K o Ctrl+K. Busca todas las páginas, incluida Inicio, por nombre y contexto, sin distinguir tildes ni mayúsculas. Las flechas cambian el resultado activo, Enter abre su página y Escape cierra el diálogo; el foco vuelve al botón. Una búsqueda sin coincidencias muestra un mensaje explícito.</p><p class="text-sm text-muted leading-copy mt-4">El diálogo usa Superficie, texto Tinta, borde Línea, selección Atlántico suave y tipografía Montserrat. Radio de 7 px y sin animaciones. Los datos de las fichas alimentan también el índice de búsqueda para mantener sus rutas alineadas.</p></div>
-          <SiteSearch client:load />
+          <SiteSearch searchPages={searchPages} client:load />
         </div>
         <div class="grid grid-cols-[1fr_1.4fr] gap-7 mt-8 items-center max-sm:grid-cols-1">
-          <PlaceCard {...getStory('riazor')} />
+          <PlaceCard {...riazor.data} href={getGuideHref(riazor.id)} />
           <div><p class="text-meta text-sea tracking-eyebrow mb-4">TARJETA CON ENLACE · EJEMPLO INTERACTIVO</p><p class="text-sm text-muted leading-copy">Pulsa el título o la imagen para abrir la ficha de Riazor y Orzán. Se reutilizan PlaceCard, Tag e Icon, con las mismas jerarquías del resto del sistema. El texto mantiene el color Tinta; Atlántico indica acciones, Barro acompaña lengua e historia y Monte se reserva para naturaleza y rutas.</p><p class="text-sm text-muted leading-copy mt-4">Las fichas comparten cabecera y pie con la home. Comienzan directamente con la categoría y el nombre del lugar como H1, sin breadcrumb. Incluyen imagen con créditos, lectura de hasta 65 caracteres, recorrido y datos de visita en una superficie plana. Tras el recorrido y los datos de visita se pasa directamente a las tarjetas relacionadas. En móvil, la información práctica pasa debajo del texto.</p></div>
         </div>
       </section>

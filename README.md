@@ -78,11 +78,11 @@ Las clases elegidas a partir de datos se declaran completas en mapas tipados o l
 
 El catálogo muestra explícitamente el estado sin metraje. El componente acepta `src`, `poster`, `title`, `caption` y `captionsSrc`; con `src` se convierte en un reproductor HTML nativo con controles, sin autoplay y `preload="none"`. Añadir subtítulos y una transcripción editorial cuando se publique metraje. No se carga ningún reproductor externo.
 
-## Modelo editorial propuesto
+## Fichas de la guía
 
-Una futura ficha de lugar tendrá: identificador, nombre, resumen, tipo de contenido, barrio, temas, cuerpo editorial, fotografías con texto alternativo y licencia, coordenadas y datos prácticos verificados con fecha de revisión. Los artículos podrán relacionar lugares y palabras del glosario. Las rutas relacionarán lugares en orden.
+Cada archivo MDX de `src/content/guide/` genera una ficha. Por ejemplo, `torre-de-hercules.mdx` se publica en `/torre-de-hercules/`. Edita el título, la descripción, la categoría, la imagen y los datos de visita en el frontmatter. Escribe el texto y las paradas en el cuerpo MDX.
 
-Las tarjetas actuales son muestras del sistema. No se han inventado horarios, precios, valoraciones ni datos de establecimientos. La página DS se marca `noindex` hasta crear la web pública; ese ajuste deberá separarse al añadir páginas editoriales.
+El esquema de `src/content.config.ts` valida las propiedades. `order` fija el orden de las fichas y `homeFilter` añade la ficha a «Qué ver y hacer» con el filtro indicado. La portada, las tarjetas relacionadas y el buscador leen la misma colección.
 
 ## Fotografías
 
