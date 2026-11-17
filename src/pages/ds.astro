@@ -1,7 +1,6 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
-import HomeCarousel from '../components/HomeCarousel.astro';
 import { getGuideEntry, getGuideHref } from '../data/guide';
 const entry = await getGuideEntry('obelisco-y-calle-real');
 const colors = [
@@ -24,8 +23,6 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
     <a class={link} href="#tipografia">Tipografía</a>
     <a class={link} href="#color">Color</a>
     <a class={link} href="#enlaces">Enlaces y listas</a>
-    <a class={link} href="#carrusel">Carrusel de portada</a>
-    <a class={link} href="#voz">Contenido</a>
   </nav>
   <div class="text-base leading-copy text-muted">
     <section id="estructura" class={section}>
@@ -62,23 +59,6 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
       <p>Las filas llevan una miniatura de 48 px, título de 14 px y descripción de 12 px. Dejamos 12 px entre imagen y texto, 6 px entre la foto y el borde, y 12 px en el extremo derecho. Usamos <code class="text-md text-ink">rounded-card</code> (7 px) para la tarjeta y <code class="text-md text-ink">rounded-sm</code> (4 px) para la foto. Cada fila tiene un borde de 1 px con el token línea al 70 % y 4 px de separación con la siguiente. Toda la fila es un enlace, sin subrayado en el título, y recibe un fondo suave al interactuar.</p>
       <p>Lucide sigue siendo la biblioteca de iconos. La flecha de 16 px aparece al pasar el cursor o enfocar con el teclado, y permanece visible en pantallas táctiles. Las miniaturas y las flechas son decorativas para los lectores de pantalla.</p>
       <p>El buscador es secundario. Se abre desde «Buscar» o con ⌘ K / Ctrl K, permite navegar con el teclado y devuelve el foco al cerrarse. Agrupa las páginas de la guía bajo «Guía» y las demás bajo «General».</p>
-    </section>
-    <section id="carrusel" class={section}>
-      <h2 class={heading}>Un paseo en imágenes</h2>
-      <p>En la portada, la cabecera usa un espaciado inferior compacto: 24 px en móvil y 32 px desde <code class="text-md text-ink">sm</code>. Así el logotipo queda cerca del carrusel.</p>
-      <p>La portada abre con un carrusel de fotografías, entre el logotipo y el relato. Es la única pieza que desborda la columna: su escena alcanza 896 px y, desde el punto de ruptura <code class="text-md text-ink">lg</code> (1021 px), se amplía hasta <code class="text-md text-ink">max-w-content</code> (1120 px) para que las fotos sobresalgan un poco por ambos lados del texto. En móvil conserva su ancho y al menos 16 px de margen lateral, sin desplazamiento horizontal. Las fotos mantienen la proporción 4:3 en todos los tamaños, sin un recorte adicional en móvil, con esquinas <code class="text-md text-ink">rounded-lg</code>.</p>
-      <p>El movimiento adapta el anillo 3D de <a class={link} href="https://github.com/codrops/3DCarousel">Codrops</a> y la geometría del <a class={link} href="https://3dtransforms.desandro.com/carousel">carrusel de David DeSandro</a>. Las fotos se distribuyen a distancias iguales sobre un cilindro rígido y gira todo el conjunto: el giro de cada imagen coincide con su posición, sin trayectorias ni inclinaciones independientes.</p>
-      <p>El anillo avanza de izquierda a derecha, una posición cada cinco segundos, centrado verticalmente y sin inclinación hacia arriba o abajo. Las fotos se acercan por la izquierda y retroceden por la derecha; la perspectiva determina el tamaño y la separación. Los laterales se desvanecen antes de llegar al reverso. En escritorio la colección se repite en la parte trasera para mantener unas cinco fotos visibles. En móvil se usa una sola vuelta, con una foto protagonista al 50 % del ancho para reducir su altura manteniendo la proporción y mostrar más de las vecinas dentro de los márgenes de la escena. El giro es continuo y a velocidad constante, sin pausas entre fotos, tanto en móvil como en escritorio. La escena móvil tiene proporción 5:2 y perspectiva de 1000 px para que las fotos se lean sin aplastarlas.</p>
-      <p>Solo se animan la rotación del anillo y la opacidad de las fotos. El radio se calcula a partir de su ancho para evitar que se atraviesen. La escena conserva el punto del recorrido al cambiar de tamaño y los estilos de la fila estática solo se aplican cuando no hay animación.</p>
-      <p>El carrusel muestra solo las fotografías, sin una fila inferior de créditos ni controles. El margen inferior de la escena es de 16 px (<code class="text-md text-ink">mb-4</code>) para acercarla al primer párrafo. El movimiento se detiene fuera de pantalla y con la pestaña oculta. Con movimiento reducido o sin JavaScript se presenta una foto centrada en móvil y una fila estática en escritorio.</p>
-      <HomeCarousel />
-    </section>
-    <section id="voz" class={section}>
-      <h2 class={heading}>Una mirada personal</h2>
-      <p>La voz puede decir «te recomiendo» o «para mí» sin necesidad de presentarse. Opiniones concretas, sin inventar recuerdos, costumbres ni experiencias. Cada nueva pieza necesita algo propio que contar.</p>
-      <p>La colección empieza con «Obelisco y calle Real». Añadimos nuevas notas cuando haya algo que contar, sin rellenar categorías para que la web parezca completa.</p>
-      <p>Las listas usan pequeñas miniaturas para reconocer cada nota. Dentro del relato, las fotografías tienen un ancho máximo de 320 px y su crédito cuando corresponda. El carrusel de la portada es la excepción: presenta la ciudad antes de empezar a leer. Las notas mantienen su composición sin imágenes de cabecera ni mapas.</p>
-      <p>Los componentes de la versión anterior quedan fuera del sistema activo. Cualquier nuevo patrón debe documentarse aquí antes de extenderlo a la web.</p>
     </section>
   </div>
 </HomeLayout>

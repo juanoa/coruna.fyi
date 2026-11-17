@@ -13,6 +13,6 @@
 ## Sistema de diseño
 
 - Implementar siempre los estilos con utilidades de Tailwind CSS y los tokens existentes. No usar CSS vanilla, hojas CSS específicas por componente, bloques `<style>` ni estilos inline.
-- La página `/ds` (`src/pages/ds.astro`) es la fuente de verdad para el diseño del proyecto: arquitectura de la interfaz, composición, componentes, tipografía, espaciado, uso semántico de cada color y patrones de interacción.
+- La página `/ds` (`src/pages/ds.astro`) documenta los fundamentos clave y de bajo nivel compartidos por el proyecto, como la tipografía, los tokens, el color y la estructura general.
 - Consultar `/ds` antes de crear o modificar interfaces y seguir sus criterios, reutilizando los componentes y tokens existentes.
-- Si hace falta introducir o cambiar un patrón de diseño, actualizar también `/ds` para mantener la documentación y la implementación alineadas.
+- Actualizar `/ds` únicamente cuando cambie un fundamento clave y compartido. No documentar automáticamente cada componente, decisión de implementación o patrón específico de una página.
