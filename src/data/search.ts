@@ -1,7 +1,7 @@
 export interface SearchPage {
   title: string;
   href: string;
-  group: 'General' | 'Apuntes';
+  group: 'General' | 'Guía';
   keywords: string[];
 }
 

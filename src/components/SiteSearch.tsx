@@ -3,8 +3,7 @@ import { ArrowUpRight, FileText, Home, Search } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { filterPage, type SearchPage } from '../data/search';
 
-const groups: SearchPage['group'][] = ['General', 'Apuntes'];
-const groupIcons = { General: FileText, Apuntes: FileText };
+const groups: SearchPage['group'][] = ['General', 'Guía'];
 const keyClasses = 'inline-flex min-h-6 items-center justify-center whitespace-nowrap rounded-tag border border-line bg-paper px-1.5 py-0.5 font-body text-meta font-normal leading-none';
 
 export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] }) {
@@ -46,7 +45,7 @@ export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] 
             <CommandEmpty>No se han encontrado páginas.<span>Prueba con otro nombre.</span></CommandEmpty>
             {groups.map((group) => <CommandGroup key={group} heading={group}>
               {searchPages.filter((page) => page.group === group).map((page) => {
-                const PageIcon = page.href === '/' ? Home : groupIcons[group];
+                const PageIcon = page.href === '/' ? Home : FileText;
                 return <CommandItem key={page.href} value={page.href} keywords={[page.title, ...page.keywords]} onSelect={() => { setOpen(false); window.location.assign(page.href); }}>
                   <PageIcon size={20} strokeWidth={1.5} aria-hidden="true" />
                   <span className="flex min-w-0 flex-col gap-0.75"><span>{page.title}</span><span className="text-meta text-muted [overflow-wrap:anywhere]">{page.href}</span></span>

@@ -1,16 +1,16 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { render, type CollectionEntry } from 'astro:content';
-import { getGuideEntries, getGuideHref } from '../data/guide';
+import { getGuideEntries, getGuideHref, getPublishedEntries } from '../data/guide';
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
 
 export const getStaticPaths = (async () => {
-  const entries = await getGuideEntries();
+  const entries = await getPublishedEntries();
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }) satisfies GetStaticPaths;
 
-interface Props { entry: CollectionEntry<'guide'>; }
+interface Props { entry: CollectionEntry<'guide'> | CollectionEntry<'pages'>; }
 const { entry: guideEntry } = Astro.props;
 const { Content } = await render(guideEntry);
 const entry = guideEntry.data;

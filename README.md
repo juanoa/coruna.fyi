@@ -80,9 +80,9 @@ El catálogo muestra explícitamente el estado sin metraje. El componente acepta
 
 ## Fichas de la guía
 
-Cada archivo MDX de `src/content/guide/` genera una ficha. Por ejemplo, `torre-de-hercules.mdx` se publica en `/torre-de-hercules/`. Edita el título, la descripción, la categoría, la imagen y los datos de visita en el frontmatter. Escribe el texto y las paradas en el cuerpo MDX.
+Cada archivo MDX de `src/content/guide/` o directamente en `src/content/` genera una página. Por ejemplo, `deporte.mdx` se publica en `/deporte/`. Edita el título y la descripción en el frontmatter y escribe el contenido en el cuerpo MDX. Las entradas de la guía requieren también imagen y texto alternativo.
 
-El esquema de `src/content.config.ts` valida las propiedades. `order` fija el orden de las fichas y `homeFilter` añade la ficha a «Qué ver y hacer» con el filtro indicado. La portada, las tarjetas relacionadas y el buscador leen la misma colección.
+El esquema de `src/content.config.ts` valida las propiedades. El buscador incluye las páginas publicadas de ambas carpetas; `draft: true` las excluye del buscador y de las rutas. Los nombres de archivo deben ser únicos entre las dos carpetas.
 
 ## Fotografías
 

@@ -15,14 +15,24 @@ export function getGuideHref(id: string) {
   return `/${id}/`;
 }
 
+export async function getPublishedEntries() {
+  const entries = [...await getGuideEntries(), ...(await getCollection('pages')).filter(({ data }) => !data.draft)];
+  const ids = new Set<string>();
+  for (const entry of entries) {
+    if (ids.has(entry.id)) throw new Error(`Duplicate page slug: ${entry.id}`);
+    ids.add(entry.id);
+  }
+  return entries.sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export async function getSearchPages(): Promise<SearchPage[]> {
-  const entries = await getGuideEntries();
+  const entries = await getPublishedEntries();
   return [
     { title: 'Inicio', href: '/', group: 'General', keywords: ['home', 'notas', 'A Coruña', 'coruña.fyi'] },
-    ...entries.map(({ id, data }) => ({
+    ...entries.map(({ id, data, collection }) => ({
       title: data.title,
       href: getGuideHref(id),
-      group: 'Apuntes' as const,
+      group: collection === 'guide' ? 'Guía' as const : 'General' as const,
       keywords: [data.title, data.description],
     })),
   ];

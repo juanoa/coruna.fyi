@@ -15,4 +15,15 @@ const guide = defineCollection({
   }),
 });
 
-export const collections = { guide };
+const pages = defineCollection({
+  loader: glob({ pattern: '*.mdx', base: './src/content' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    image: z.string().optional(),
+    draft: z.boolean().default(false),
+    related: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { guide, pages };
