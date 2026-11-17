@@ -9,6 +9,7 @@
 - Always English for the code, vars, classnames, comments, etc.
 - Spanish for the web text (galician allowed when need it)
 - Use coruña.fyi instead of coruna.fyi in the web text
+- Usar WebP para todas las imágenes y ajustar sus dimensiones al tamaño y la resolución necesarios para el lugar donde se muestran.
 
 ## Sistema de diseño
 
