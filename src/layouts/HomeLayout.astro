@@ -3,8 +3,8 @@ import '@fontsource-variable/montserrat/index.css';
 import Layout from './Layout.astro';
 import SiteSearch from '../components/SiteSearch';
 import { getSearchPages } from '../data/guide';
-interface Props { title?: string; description?: string; }
-const { title = 'coruña.fyi — Una forma de mirar Coruña', description = 'Apuntes sobre Coruña. Lugares, paseos y pequeñas cosas que se van conectando.' } = Astro.props;
+interface Props { title?: string; description?: string; compactHeader?: boolean; }
+const { title = 'coruña.fyi — Una forma de mirar Coruña', description = 'Apuntes sobre Coruña. Lugares, paseos y pequeñas cosas que se van conectando.', compactHeader = false } = Astro.props;
 const searchPages = await getSearchPages();
 const focus = 'focus-visible:outline-2 focus-visible:outline-sea focus-visible:outline-offset-4';
 ---
@@ -12,7 +12,7 @@ const focus = 'focus-visible:outline-2 focus-visible:outline-sea focus-visible:o
 <Layout title={title} description={description}>
   <div class="mx-auto w-full max-w-shell px-6 sm:px-8">
     <a class:list={['fixed -top-25 left-5 z-100 bg-paper px-5 py-3 focus:top-4', focus]} href="#contenido">Saltar al contenido</a>
-    <header class="flex items-center justify-between gap-6 pt-10 pb-14 sm:pt-16 sm:pb-18" id="inicio">
+    <header class:list={['flex items-center justify-between gap-6 pt-10 sm:pt-16', compactHeader ? 'pb-6 sm:pb-8' : 'pb-14 sm:pb-18']} id="inicio">
       <a href="/" class:list={['whitespace-nowrap font-logo text-[27px] font-[650] leading-none tracking-[-1.5px] text-ink [&_span]:font-normal [&_span]:text-sea', focus]} aria-label="coruña.fyi, inicio">coruña<span>.fyi</span></a>
       <SiteSearch searchPages={searchPages} client:load />
     </header>
