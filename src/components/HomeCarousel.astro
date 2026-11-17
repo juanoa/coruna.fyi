@@ -1,0 +1,135 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import galleryImages from '../data/gallery-images.json';
+
+const photos = import.meta.glob<{ default: ImageMetadata }>('../../public/images/*.jpg', { eager: true });
+const images = galleryImages.filter((image) => !['San Xurxo', 'Xardín de San Carlos'].includes(image.caption));
+const ringImages = [...images, ...images];
+---
+
+<home-carousel class="group/carousel relative left-1/2 mb-4 block w-[calc(100vw-2rem)] max-w-4xl -translate-x-1/2 lg:max-w-content">
+  <div class="relative overflow-hidden" role="img" aria-label="Un paseo en imágenes por Coruña: la Torre, Riazor, el pulpo, María Pita, A Mariña, los menhires y el monte de San Pedro.">
+    <div data-carousel-stage class="pointer-events-none relative aspect-5/2 perspective-[1000px] sm:aspect-5/1 sm:perspective-[1400px]" aria-hidden="true">
+      <div data-carousel-ring class="absolute inset-0 flex items-center transform-3d">
+        {ringImages.map((image, index) => (
+          <div data-carousel-card data-carousel-copy={index >= images.length ? '' : undefined} data-static class="w-1/2 shrink-0 px-1.5 backface-hidden data-[static]:max-sm:mx-auto data-[static]:sm:first:scale-75 data-[static]:sm:first:opacity-40 data-[static]:max-sm:[&:nth-child(n+2)]:hidden data-[carousel-copy]:max-sm:hidden sm:w-1/5 sm:px-2 data-[static]:sm:w-1/5 data-[static]:sm:[&:nth-child(5)]:scale-75 data-[static]:sm:[&:nth-child(5)]:opacity-40 data-[static]:sm:[&:nth-child(n+6)]:hidden group-data-[animated]/carousel:absolute group-data-[animated]/carousel:top-1/2 group-data-[animated]/carousel:left-1/2 group-data-[animated]/carousel:-translate-x-1/2 group-data-[animated]/carousel:-translate-y-1/2 group-data-[animated]/carousel:opacity-0">
+            <Image
+              src={photos[`../../public${image.src}`].default}
+              alt=""
+              width={360}
+              height={270}
+              widths={[180, 360, 720]}
+              sizes="(min-width: 1152px) 224px, (min-width: 1021px) 20vw, (min-width: 928px) 180px, (min-width: 541px) 20vw, 50vw"
+              class="aspect-4/3 w-full rounded-lg bg-soft object-cover"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</home-carousel>
+
+<script>
+  class HomeCarousel extends HTMLElement {
+    private animations: Animation[] = [];
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      const cards = Array.from(this.querySelectorAll<HTMLElement>('[data-carousel-card]'));
+      const stage = this.querySelector<HTMLElement>('[data-carousel-stage]')!;
+      const ring = this.querySelector<HTMLElement>('[data-carousel-ring]')!;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const wideScreen = window.matchMedia('(min-width: 541px)');
+      const stepDuration = 5000;
+      let visible = true;
+      let stageWidth = 0;
+
+      const syncPlayback = () => {
+        this.animations.forEach((animation) => {
+          if (!visible || document.hidden) animation.pause();
+          else animation.play();
+        });
+      };
+
+      const setup = () => {
+        // Preserve the same photo and fractional step through viewport changes.
+        const previousTime = Number(this.animations[0]?.currentTime ?? 0);
+        this.animations.forEach((animation) => animation.cancel());
+        this.animations = [];
+        this.toggleAttribute('data-animated', !reducedMotion.matches);
+        cards.forEach((card) => card.toggleAttribute('data-static', reducedMotion.matches));
+        stageWidth = stage.clientWidth;
+        if (reducedMotion.matches || stageWidth === 0) return;
+
+        const activeCards = cards.filter((card) => wideScreen.matches || !card.hasAttribute('data-carousel-copy'));
+        const duration = activeCards.length * stepDuration;
+        const theta = 360 / activeCards.length;
+        // Codrops' rigid rotateY/translateZ ring, with DeSandro's panel-width radius.
+        // References and the upstream MIT notice: THIRD_PARTY_NOTICES.md.
+        const radius = (activeCards[0].offsetWidth / 2) / Math.tan(Math.PI / activeCards.length);
+        const ringTransform = `translateZ(${-radius}px)`;
+        const timing = { duration, iterations: Infinity, easing: 'linear', fill: 'both' as const };
+        const rotation = ring.animate([
+          { transform: `${ringTransform} rotateY(0deg)` },
+          { transform: `${ringTransform} rotateY(360deg)` },
+        ], timing);
+        rotation.currentTime = previousTime % duration;
+
+        const fades = activeCards.map((card, index) => {
+          const transform = `rotateY(${index * theta}deg) translateZ(${radius}px)`;
+          const opacityFrames = Array.from({ length: 181 }, (_, frame) => ({ offset: frame / 180, angle: frame * 2 }));
+          const frames = opacityFrames.map(({ angle: rotationAngle, ...frame }) => {
+            const angle = (rotationAngle + index * theta) % 360;
+            const distance = Math.min(angle, 360 - angle);
+            const progress = Math.max(0, Math.min(1, (distance - 35) / 50));
+            return {
+              ...frame,
+              transform,
+              opacity: 1 - progress * progress * (3 - 2 * progress),
+            };
+          });
+          const animation = card.animate(frames, timing);
+          animation.currentTime = previousTime % duration;
+          return animation;
+        });
+        this.animations = [rotation, ...fades];
+        syncPlayback();
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncPlayback();
+      });
+      observer.observe(this);
+      const resizeObserver = new ResizeObserver(() => {
+        if (stage.clientWidth !== stageWidth) setup();
+      });
+      resizeObserver.observe(stage);
+      reducedMotion.addEventListener('change', setup);
+      wideScreen.addEventListener('change', setup);
+      document.addEventListener('visibilitychange', syncPlayback);
+      setup();
+
+      this.cleanup = () => {
+        observer.disconnect();
+        resizeObserver.disconnect();
+        reducedMotion.removeEventListener('change', setup);
+        wideScreen.removeEventListener('change', setup);
+        document.removeEventListener('visibilitychange', syncPlayback);
+        this.animations.forEach((animation) => animation.cancel());
+        this.animations = [];
+        this.removeAttribute('data-animated');
+        cards.forEach((card) => card.setAttribute('data-static', ''));
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get('home-carousel')) customElements.define('home-carousel', HomeCarousel);
+</script>
