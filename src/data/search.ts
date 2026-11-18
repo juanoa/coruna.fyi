@@ -1,5 +1,6 @@
 export interface SearchPage {
   title: string;
+  description?: string;
   href: string;
   group: 'General' | 'Guía' | 'Comida y bebida';
   keywords: string[];

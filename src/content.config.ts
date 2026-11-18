@@ -6,7 +6,7 @@ const guide = defineCollection({
   loader: glob({ pattern: '*.mdx', base: './src/content/guide' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     image: z.string(),
     alt: z.string(),
     draft: z.boolean().default(false),
@@ -19,7 +19,7 @@ const pages = defineCollection({
   loader: glob({ pattern: '*.mdx', base: './src/content' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     image: z.string().optional(),
     draft: z.boolean().default(false),
     related: z.array(z.string()).default([]),
@@ -30,7 +30,7 @@ const foodAndDrink = defineCollection({
   loader: glob({ pattern: '*.mdx', base: './src/content/food-and-drink' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     image: z.string().optional(),
     draft: z.boolean().default(false),
     related: z.array(z.string()).default([]),

@@ -47,8 +47,11 @@ export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] 
               {searchPages.filter((page) => page.group === group).map((page) => {
                 const PageIcon = page.href === '/' ? Home : FileText;
                 return <CommandItem key={page.href} value={page.href} keywords={[page.title, ...page.keywords]} onSelect={() => { setOpen(false); window.location.assign(page.href); }}>
-                  <PageIcon size={20} strokeWidth={1.5} aria-hidden="true" />
-                  <span className="flex min-w-0 flex-col gap-0.75"><span>{page.title}</span><span className="text-meta text-muted [overflow-wrap:anywhere]">{page.href}</span></span>
+                  <PageIcon size={16} strokeWidth={1.5} aria-hidden="true" />
+                  <span className="flex min-w-0 flex-col gap-0.5">
+                    <span className="font-medium leading-tight">{page.title}</span>
+                    {page.description && <span className="text-label leading-snug text-muted [overflow-wrap:anywhere]">{page.description}</span>}
+                  </span>
                   <ArrowUpRight size={16} strokeWidth={1} className="ml-auto" aria-hidden="true" />
                 </CommandItem>;
               })}

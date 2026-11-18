@@ -31,9 +31,10 @@ export async function getSearchPages(): Promise<SearchPage[]> {
     { title: 'Inicio', href: '/', group: 'General', keywords: ['home', 'notas', 'A Coruña', 'coruña.fyi'] },
     ...entries.map(({ id, data, collection }) => ({
       title: data.title,
+      description: data.description,
       href: getGuideHref(id),
       group: collection === 'guide' ? 'Guía' as const : collection === 'foodAndDrink' ? 'Comida y bebida' as const : 'General' as const,
-      keywords: [data.title, data.description],
+      keywords: [data.title, ...(data.description ? [data.description] : [])],
     })),
   ];
 }
