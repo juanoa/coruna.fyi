@@ -1,6 +1,7 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import NoteList from '../components/NoteList.astro';
+import InlineLinkPill from '../components/InlineLinkPill.astro';
 import { getGuideEntry, getGuideHref } from '../data/guide';
 const entry = await getGuideEntry('obelisco-y-calle-real');
 const colors = [
@@ -54,6 +55,7 @@ const link = 'text-ink underline decoration-line underline-offset-4 hover:text-s
     <section id="enlaces" class={section}>
       <h2 class={heading}>Cada enlace tiene un motivo</h2>
       <p>Los enlaces nacen dentro del relato: la guía empieza en el <a class={link} href={getGuideHref(entry.id)}>Obelisco y la calle Real</a>. Dentro de los párrafos van subrayados. Todos son accesibles con teclado y funcionan también sin JavaScript.</p>
+      <p>Una pill también puede enlazar un lugar: <InlineLinkPill href="/omakase/" label="Omakase" />.</p>
       <p>Al final de una nota, una lista breve ofrece continuaciones elegidas por su relación con el texto. Sin recomendaciones automáticas ni carruseles.</p>
       <NoteList items={[{ title: entry.data.title, href: getGuideHref(entry.id), image: entry.data.image, description: entry.data.description }]} />
       <p>Las filas llevan una miniatura de 48 px, título de 14 px y descripción de 12 px. Dejamos 12 px entre imagen y texto, 6 px entre la foto y el borde, y 12 px en el extremo derecho. Usamos <code class="text-md text-ink">rounded-card</code> (7 px) para la tarjeta y <code class="text-md text-ink">rounded-sm</code> (4 px) para la foto. Cada fila tiene un borde de 1 px con el token línea al 70 % y 4 px de separación con la siguiente. Toda la fila es un enlace, sin subrayado en el título, y recibe un fondo suave al interactuar.</p>

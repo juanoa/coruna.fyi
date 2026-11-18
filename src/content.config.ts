@@ -26,4 +26,15 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { guide, pages };
+const foodAndDrink = defineCollection({
+  loader: glob({ pattern: '*.mdx', base: './src/content/food-and-drink' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    image: z.string().optional(),
+    draft: z.boolean().default(false),
+    related: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { guide, pages, foodAndDrink };

@@ -16,7 +16,7 @@ export function getGuideHref(id: string) {
 }
 
 export async function getPublishedEntries() {
-  const entries = [...await getGuideEntries(), ...(await getCollection('pages')).filter(({ data }) => !data.draft)];
+  const entries = [...await getGuideEntries(), ...(await getCollection('pages')).filter(({ data }) => !data.draft), ...(await getCollection('foodAndDrink')).filter(({ data }) => !data.draft)];
   const ids = new Set<string>();
   for (const entry of entries) {
     if (ids.has(entry.id)) throw new Error(`Duplicate page slug: ${entry.id}`);

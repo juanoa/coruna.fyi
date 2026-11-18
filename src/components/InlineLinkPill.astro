@@ -1,0 +1,10 @@
+---
+import InlineLinkPill from './InlineLinkPillReact';
+
+interface Props {
+  href: string;
+  label: string;
+}
+---
+
+<InlineLinkPill {...Astro.props} client:load />

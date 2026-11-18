@@ -10,7 +10,7 @@ export const getStaticPaths = (async () => {
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }) satisfies GetStaticPaths;
 
-interface Props { entry: CollectionEntry<'guide'> | CollectionEntry<'pages'>; }
+interface Props { entry: CollectionEntry<'guide'> | CollectionEntry<'pages'> | CollectionEntry<'foodAndDrink'>; }
 const { entry: guideEntry } = Astro.props;
 const { Content } = await render(guideEntry);
 const entry = guideEntry.data;
