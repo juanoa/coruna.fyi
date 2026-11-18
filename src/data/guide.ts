@@ -32,7 +32,7 @@ export async function getSearchPages(): Promise<SearchPage[]> {
     ...entries.map(({ id, data, collection }) => ({
       title: data.title,
       href: getGuideHref(id),
-      group: collection === 'guide' ? 'Guía' as const : 'General' as const,
+      group: collection === 'guide' ? 'Guía' as const : collection === 'foodAndDrink' ? 'Comida y bebida' as const : 'General' as const,
       keywords: [data.title, data.description],
     })),
   ];

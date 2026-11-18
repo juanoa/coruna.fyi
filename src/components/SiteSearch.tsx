@@ -3,7 +3,7 @@ import { ArrowUpRight, FileText, Home, Search } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { filterPage, type SearchPage } from '../data/search';
 
-const groups: SearchPage['group'][] = ['General', 'Guía'];
+const groups: SearchPage['group'][] = ['General', 'Guía', 'Comida y bebida'];
 const keyClasses = 'inline-flex min-h-6 items-center justify-center whitespace-nowrap rounded-tag border border-line bg-paper px-1.5 py-0.5 font-body text-meta font-normal leading-none';
 
 export default function SiteSearch({ searchPages }: { searchPages: SearchPage[] }) {
